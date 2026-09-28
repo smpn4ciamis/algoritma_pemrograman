@@ -548,6 +548,10 @@
     <script>
         // --- ACTIVITY IMPLEMENTATIONS ---
 
+        function handleMistake(hint) {
+            showNotification(hint, 'warning');
+        }
+
         // 1. Sort Mi Activity
         function renderActivitySortMi(content) {
             let html = `<p class="text-lg text-slate-200 mb-8">${content}</p>`;
@@ -914,6 +918,74 @@
             }
         }
 
+        function initRobotMaze() {
+            clearCommands();
+            resetRobot();
+        }
+
+        function resetRobot() {
+            const robot = document.getElementById('sim-robot');
+            if(robot) {
+                robot.style.top = '4%';
+                robot.style.left = '4%';
+                robot.dataset.x = 0;
+                robot.dataset.y = 0;
+            }
+        }
+
+        function runSimulation() {
+            const robot = document.getElementById('sim-robot');
+            if(!robot || simCommands.length === 0) return;
+            
+            let x = parseInt(robot.dataset.x || 0);
+            let y = parseInt(robot.dataset.y || 0);
+            let i = 0;
+            
+            // Map of grid cells: 0 = empty, 1 = fire, 2 = goal
+            const grid = [
+                [0, 0, 1, 0],
+                [0, 1, 0, 0],
+                [0, 0, 0, 1],
+                [0, 0, 0, 2]
+            ];
+            
+            robot.style.transition = 'all 0.5s ease';
+            
+            const interval = setInterval(() => {
+                if(i >= simCommands.length) {
+                    clearInterval(interval);
+                    setTimeout(() => checkSimulation(x, y, grid), 500);
+                    return;
+                }
+                
+                const cmd = simCommands[i];
+                if(cmd === 'right' && x < 3) x++;
+                if(cmd === 'down' && y < 3) y++;
+                
+                // Update position (approximate percentages based on 4x4 grid)
+                // Cell width ~25%, start at 4%, step is 25%
+                robot.style.left = (4 + x * 25) + '%';
+                robot.style.top = (4 + y * 25) + '%';
+                robot.dataset.x = x;
+                robot.dataset.y = y;
+                
+                i++;
+            }, 600);
+        }
+        
+        function checkSimulation(x, y, grid) {
+            if(grid[y][x] === 1) {
+                showNotification('Robot terbakar! Coba jalur lain.', 'error');
+                setTimeout(resetRobot, 1000);
+            } else if (grid[y][x] === 2) {
+                addXP(40);
+                showModal('Berhasil!', 'Robot sampai di tujuan! Kamu telah menyusun algoritma (urutan perintah) yang tepat.', 'Lanjut', nextScreen);
+            } else {
+                showNotification('Robot belum mencapai tujuan.', 'warning');
+                setTimeout(resetRobot, 1000);
+            }
+        }
+
         // 6. Mastery Check (Quiz M1)
         function renderMasteryCheckM1(content) {
              let html = `<p class="text-lg text-slate-300 mb-8">${content}</p>`;
@@ -951,6 +1023,43 @@
 
              html += renderNavigationButtons(false, 'checkMastery()');
              return html;
+        }
+
+        function checkMastery() {
+            const questions = document.querySelectorAll('.mastery-q');
+            let score = 0;
+            let allAnswered = true;
+            
+            questions.forEach((q, idx) => {
+                const correct = parseInt(q.getAttribute('data-correct'));
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                
+                if(!selected) {
+                    allAnswered = false;
+                } else if(parseInt(selected.value) === correct) {
+                    score++;
+                }
+            });
+            
+            if(!allAnswered) {
+                showNotification('Harap jawab semua pertanyaan terlebih dahulu.', 'warning');
+                return;
+            }
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            const m = state.meetings[state.currentMeetingId - 1];
+            m.mastery = percentage;
+            saveState();
+            
+            if(percentage >= 80) {
+                addXP(100);
+                finishMeeting();
+            } else {
+                showModal('Skor: ' + percentage + '%', 'Kamu butuh skor minimal 80% untuk menguasai materi ini. Silakan ulangi bagian yang belum dipahami.', 'Ulangi Materi', () => {
+                    state.currentScreenIndex = 0;
+                    renderScreen();
+                });
+            }
         }
 
         function showNotification(message, type = 'info') {

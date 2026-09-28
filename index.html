@@ -78,38 +78,38 @@
     <script>
         // --- DATA & STATE MANAGEMENT ---
         
-        // 30 Meetings Data Structure (Only Meeting 1 is fully detailed for now, others are placeholders for the map)
+        // 30 Meetings Data Structure
         const meetingsData = [
-            { id: 1, title: "Bagaimana Komputer Menyelesaikan Masalah?", focus: "Algoritma sebagai langkah-langkah logis dan terstruktur.", status: "locked", mastery: 0 },
-            { id: 2, title: "Berpikir Seperti Komputer", focus: "Dekomposisi masalah", status: "locked", mastery: 0 },
-            { id: 3, title: "Mengenal Pemrograman Visual Blok", focus: "Program visual berbasis blok", status: "locked", mastery: 0 },
-            { id: 4, title: "Scratch vs Blockly", focus: "Perbandingan visual dan prosedural", status: "locked", mastery: 0 },
-            { id: 5, title: "Urutan Instruksi", focus: "Sequence", status: "locked", mastery: 0 },
-            { id: 6, title: "Variabel: Kotak Penyimpan Data", focus: "Variabel", status: "locked", mastery: 0 },
-            { id: 7, title: "Input → Process → Output", focus: "IPO", status: "locked", mastery: 0 },
-            { id: 8, title: "Percabangan: Program Harus Bisa Memilih", focus: "IF / kondisi", status: "locked", mastery: 0 },
-            { id: 9, title: "Perulangan: Jangan Menulis Hal yang Sama...", focus: "Loop", status: "locked", mastery: 0 },
-            { id: 10, title: "Mengapa Program Perlu Dipecah?", focus: "Konsep modularisasi", status: "locked", mastery: 0 },
-            { id: 11, title: "Membuat Modul Pertama", focus: "Membuat dan memanggil modul", status: "locked", mastery: 0 },
-            { id: 12, title: "Parameter: Modul yang Bisa Menerima Data", focus: "Parameter", status: "locked", mastery: 0 },
-            { id: 13, title: "Function atau Procedure?", focus: "Function vs Procedure", status: "locked", mastery: 0 },
-            { id: 14, title: "Library: Gunakan Kembali Program...", focus: "Library dan reuse", status: "locked", mastery: 0 },
-            { id: 15, title: "Literasi Numerik: Program Menghitung...", focus: "Menyelesaikan masalah numerik", status: "locked", mastery: 0 },
-            { id: 16, title: "Fungsi Kuadrat Menjadi Program", focus: "Fungsi kuadrat", status: "locked", mastery: 0 },
-            { id: 17, title: "Memetakan Fungsi Kuadrat", focus: "Pemetaan visual grafik", status: "locked", mastery: 0 },
-            { id: 18, title: "Pemrograman untuk Sains", focus: "Pola pertumbuhan organisme", status: "locked", mastery: 0 },
-            { id: 19, title: "Simulasi Pertumbuhan N Hari", focus: "Perulangan + modularisasi", status: "locked", mastery: 0 },
-            { id: 20, title: "Apa Itu Sistem Bilangan?", focus: "Konsep basis bilangan", status: "locked", mastery: 0 },
-            { id: 21, title: "Biner ↔ Desimal", focus: "Konversi biner dan desimal", status: "locked", mastery: 0 },
-            { id: 22, title: "Oktal ↔ Desimal", focus: "Konversi oktal dan desimal", status: "locked", mastery: 0 },
-            { id: 23, title: "Heksadesimal ↔ Desimal", focus: "Konversi heksadesimal dan desimal", status: "locked", mastery: 0 },
-            { id: 24, title: "Membuat Konverter Sistem Bilangan", focus: "Gabungan function konverter", status: "locked", mastery: 0 },
-            { id: 25, title: "Mengapa Data Bisa Rusak Saat Dikirim?", focus: "Konsep error pengiriman", status: "locked", mastery: 0 },
-            { id: 26, title: "Parity Bit", focus: "Deteksi kesalahan sederhana", status: "locked", mastery: 0 },
-            { id: 27, title: "Bisa Mendeteksi Error, tetapi Tidak...", focus: "Keterbatasan parity bit", status: "locked", mastery: 0 },
-            { id: 28, title: "Flowchart → Program", focus: "Translasi algoritma ke blok", status: "locked", mastery: 0 },
-            { id: 29, title: "Program → Pseudocode → Program", focus: "Translasi representasi algoritma", status: "locked", mastery: 0 },
-            { id: 30, title: "FINAL MISSION", focus: "BUILD YOUR OWN DIGITAL SOLUTION", status: "locked", mastery: 0 }
+            { id: 1, title: "Bagaimana Komputer Menyelesaikan Masalah?", focus: "Algoritma sebagai langkah-langkah logis dan terstruktur.", status: "sedang belajar", mastery: 0 },
+            { id: 2, title: "Berpikir Seperti Komputer", focus: "Dekomposisi masalah", status: "sedang belajar", mastery: 0 },
+            { id: 3, title: "Mengenal Pemrograman Visual Blok", focus: "Program visual berbasis blok", status: "sedang belajar", mastery: 0 },
+            { id: 4, title: "Scratch vs Blockly", focus: "Perbandingan visual dan prosedural", status: "sedang belajar", mastery: 0 },
+            { id: 5, title: "Urutan Instruksi", focus: "Sequence", status: "sedang belajar", mastery: 0 },
+            { id: 6, title: "Variabel: Kotak Penyimpan Data", focus: "Variabel", status: "sedang belajar", mastery: 0 },
+            { id: 7, title: "Input → Process → Output", focus: "IPO", status: "sedang belajar", mastery: 0 },
+            { id: 8, title: "Percabangan: Program Harus Bisa Memilih", focus: "IF / kondisi", status: "sedang belajar", mastery: 0 },
+            { id: 9, title: "Perulangan: Jangan Menulis Hal yang Sama...", focus: "Loop", status: "sedang belajar", mastery: 0 },
+            { id: 10, title: "Mengapa Program Perlu Dipecah?", focus: "Konsep modularisasi", status: "sedang belajar", mastery: 0 },
+            { id: 11, title: "Membuat Modul Pertama", focus: "Membuat dan memanggil modul", status: "sedang belajar", mastery: 0 },
+            { id: 12, title: "Parameter: Modul yang Bisa Menerima Data", focus: "Parameter", status: "sedang belajar", mastery: 0 },
+            { id: 13, title: "Function atau Procedure?", focus: "Function vs Procedure", status: "sedang belajar", mastery: 0 },
+            { id: 14, title: "Library: Gunakan Kembali Program...", focus: "Library dan reuse", status: "sedang belajar", mastery: 0 },
+            { id: 15, title: "Literasi Numerik: Program Menghitung...", focus: "Menyelesaikan masalah numerik", status: "sedang belajar", mastery: 0 },
+            { id: 16, title: "Fungsi Kuadrat Menjadi Program", focus: "Fungsi kuadrat", status: "sedang belajar", mastery: 0 },
+            { id: 17, title: "Memetakan Fungsi Kuadrat", focus: "Pemetaan visual grafik", status: "sedang belajar", mastery: 0 },
+            { id: 18, title: "Pemrograman untuk Sains", focus: "Pola pertumbuhan organisme", status: "sedang belajar", mastery: 0 },
+            { id: 19, title: "Simulasi Pertumbuhan N Hari", focus: "Perulangan + modularisasi", status: "sedang belajar", mastery: 0 },
+            { id: 20, title: "Apa Itu Sistem Bilangan?", focus: "Konsep basis bilangan", status: "sedang belajar", mastery: 0 },
+            { id: 21, title: "Biner ↔ Desimal", focus: "Konversi biner dan desimal", status: "sedang belajar", mastery: 0 },
+            { id: 22, title: "Oktal ↔ Desimal", focus: "Konversi oktal dan desimal", status: "sedang belajar", mastery: 0 },
+            { id: 23, title: "Heksadesimal ↔ Desimal", focus: "Konversi heksadesimal dan desimal", status: "sedang belajar", mastery: 0 },
+            { id: 24, title: "Membuat Konverter Sistem Bilangan", focus: "Gabungan function konverter", status: "sedang belajar", mastery: 0 },
+            { id: 25, title: "Mengapa Data Bisa Rusak Saat Dikirim?", focus: "Konsep error pengiriman", status: "sedang belajar", mastery: 0 },
+            { id: 26, title: "Parity Bit", focus: "Deteksi kesalahan sederhana", status: "sedang belajar", mastery: 0 },
+            { id: 27, title: "Bisa Mendeteksi Error, tetapi Tidak...", focus: "Keterbatasan parity bit", status: "sedang belajar", mastery: 0 },
+            { id: 28, title: "Flowchart → Program", focus: "Translasi algoritma ke blok", status: "sedang belajar", mastery: 0 },
+            { id: 29, title: "Program → Pseudocode → Program", focus: "Translasi representasi algoritma", status: "sedang belajar", mastery: 0 },
+            { id: 30, title: "FINAL MISSION", focus: "BUILD YOUR OWN DIGITAL SOLUTION", status: "sedang belajar", mastery: 0 }
         ];
 
         // Meeting 1 Screens Content
@@ -134,7 +134,7 @@
             currentMeetingId: 1,
             currentScreenIndex: 0,
             meetings: [],
-            mistakeCount: 0 // Track mistakes for hints
+            mistakeCount: 0
         };
 
         // --- LOCAL STORAGE HANDLING ---
@@ -142,10 +142,14 @@
             const savedState = localStorage.getItem('codeQuestState');
             if (savedState) {
                 state = JSON.parse(savedState);
+                // Ensure all meetings are unlocked
+                state.meetings.forEach(m => {
+                    if (m.status === 'locked' || m.status === 'belum mulai') {
+                        m.status = 'sedang belajar';
+                    }
+                });
             } else {
-                // Initialize state on first run
                 state.meetings = JSON.parse(JSON.stringify(meetingsData));
-                state.meetings[0].status = 'sedang belajar'; // Unlock first meeting
                 saveState();
             }
         }
@@ -155,25 +159,15 @@
         }
 
         // --- UTILS ---
-        function getStatusColor(status) {
-            switch(status) {
-                case 'menguasai': return 'text-green-400';
-                case 'sudah latihan': return 'text-blue-400';
-                case 'sedang belajar': return 'text-yellow-400';
-                default: return 'text-red-400';
-            }
-        }
-
         function getStatusIcon(status) {
             switch(status) {
                 case 'menguasai': return '<i class="fa-solid fa-circle-check text-green-400"></i>';
                 case 'sudah latihan': return '<i class="fa-solid fa-circle-play text-blue-400"></i>';
                 case 'sedang belajar': return '<i class="fa-solid fa-spinner fa-spin text-yellow-400"></i>';
-                default: return '<i class="fa-solid fa-lock text-red-400"></i>';
+                default: return '<i class="fa-solid fa-play text-sky-400"></i>';
             }
         }
 
-        // Add XP and save
         function addXP(amount) {
             state.xp += amount;
             saveState();
@@ -227,7 +221,7 @@
                     </div>
                 </div>
                 
-                <!-- Teacher Mode Toggle (Simple button for demo) -->
+                <!-- Teacher Mode Toggle -->
                 <button onclick="toggleTeacherMode()" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
                     <i class="fa-solid fa-chalkboard-user"></i> Guru
                 </button>
@@ -256,7 +250,6 @@
         function renderDashboard() {
             const container = document.getElementById('app-container');
             
-            // Calculate progress
             const masteredCount = state.meetings.filter(m => m.status === 'menguasai').length;
             const progressPercent = (masteredCount / state.meetings.length) * 100;
 
@@ -280,7 +273,7 @@
                             
                             <div class="flex flex-wrap gap-3 mt-6">
                                 ${getPrimaryActionButton()}
-                                <button onclick="alert('Fitur Review Sedang Dikembangkan')" class="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors flex items-center gap-2">
+                                <button onclick="showNotification('Fitur Review Sedang Dikembangkan', 'info')" class="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors flex items-center gap-2">
                                     <i class="fa-solid fa-rotate-left"></i> Review
                                 </button>
                             </div>
@@ -317,19 +310,10 @@
                     </button>
                 `;
             }
-            
-            const nextLocked = state.meetings.find(m => m.status === 'locked');
-            if (nextLocked) {
-                 return `
-                    <button onclick="alert('Kamu harus menyelesaikan pertemuan sebelumnya dengan Mastery 80%!')" class="px-6 py-2 rounded-lg bg-slate-600 text-slate-300 font-bold cursor-not-allowed flex items-center gap-2">
-                        <i class="fa-solid fa-lock"></i> Terkunci
-                    </button>
-                `;
-            }
 
             return `
-                 <button class="px-6 py-2 rounded-lg bg-green-500 text-white font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-trophy"></i> Semua Selesai!
+                 <button onclick="startMeeting(1)" class="px-6 py-2 rounded-lg bg-green-500 hover:bg-green-400 text-white font-bold transition-colors shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-play"></i> Mulai Belajar
                 </button>
             `;
         }
@@ -350,15 +334,11 @@
 
         function renderMeetingsList() {
             return state.meetings.map(m => {
-                const isLocked = m.status === 'locked';
-                const opacity = isLocked ? 'opacity-50 grayscale' : 'opacity-100';
-                const cursor = isLocked ? 'cursor-not-allowed' : 'cursor-pointer hover:border-sky-500 hover:shadow-lg hover:shadow-sky-500/10 hover:-translate-y-1';
-                const action = isLocked ? '' : `onclick="startMeeting(${m.id})"`;
                 const bgClass = m.status === 'menguasai' ? 'bg-green-900/20 border-green-500/50' : 
                                 m.status === 'sedang belajar' ? 'bg-sky-900/20 border-sky-500/50 ring-1 ring-sky-500' : 'bg-slate-800 border-slate-700';
 
                 return `
-                    <div ${action} class="${opacity} ${cursor} ${bgClass} rounded-xl p-5 border transition-all duration-200 h-full flex flex-col">
+                    <div onclick="startMeeting(${m.id})" class="cursor-pointer hover:border-sky-500 hover:shadow-lg hover:shadow-sky-500/10 hover:-translate-y-1 ${bgClass} rounded-xl p-5 border transition-all duration-200 h-full flex flex-col">
                         <div class="flex justify-between items-start mb-3">
                             <span class="text-xs font-bold px-2 py-1 rounded bg-slate-900 text-slate-300">P ${m.id}</span>
                             ${getStatusIcon(m.status)}
@@ -373,19 +353,27 @@
 
     <script>
         // --- MEETING EXECUTION ENGINE ---
-        function startMeeting(id) {
-            // Only Meeting 1 is fully implemented for this demo
-            if (id !== 1) {
-                alert(`Pertemuan ${id} sedang dalam tahap pengembangan. Silakan coba Pertemuan 1.`);
-                return;
-            }
+        function getMeetingContent(id) {
+            // Jika Pertemuan 1, gunakan konten lengkap yang sudah kita buat
+            if (id === 1) return meeting1Content;
+            
+            // Jika Pertemuan 2-30, buat konten dinamis berdasarkan data pertemuan
+            const meeting = state.meetings[id - 1];
+            return [
+                { type: 'pemantik', title: `Misi ${id}: ${meeting.title}`, content: `Selamat datang di pertemuan ${id}! Pada misi kali ini, kita akan melangkah lebih jauh dan fokus mempelajari tentang **${meeting.focus}**.\n\nMari kita mulai petualangan baru ini!` },
+                { type: 'konsep', title: `Memahami Konsep Inti`, content: `Topik utama kita adalah **${meeting.title}**.\n\nDi sini kamu akan belajar konsep inti dari **${meeting.focus}**. Coba bayangkan bagaimana konsep ini bisa diterapkan untuk membuat program atau memecahkan masalah dalam kehidupan sehari-hari.` },
+                { type: 'latihan1', title: 'Latihan Cepat', content: `Berdasarkan fokus materi kita (${meeting.focus}), menurutmu apakah pemahaman konsep ini akan membantumu menulis program yang lebih baik?`, options: ['Sangat Membantu', 'Mungkin Membantu', 'Tidak Tahu', 'Kurang Relevan'], answer: 0 },
+                { type: 'refleksi', title: 'Refleksi Diri', content: `Tuliskan pemahaman sementaramu tentang ${meeting.title}. Bagian mana dari topik ini yang paling membuatmu penasaran?`, activity: 'textarea' },
+                { type: 'mastery', title: 'Mastery Check', content: `Buktikan pemahamanmu tentang ${meeting.focus} untuk menyelesaikan misi ini!`, activity: 'quiz-generic' }
+            ];
+        }
 
+        function startMeeting(id) {
             state.currentMeetingId = id;
             state.currentScreenIndex = 0;
             state.mistakeCount = 0;
             
-            // Update status if it's the first time
-            if(state.meetings[id-1].status === 'locked' || state.meetings[id-1].status === 'sedang belajar') {
+            if(state.meetings[id-1].status !== 'menguasai') {
                 state.meetings[id-1].status = 'sedang belajar';
                 saveState();
             }
@@ -395,7 +383,8 @@
 
         function renderScreen() {
             const meeting = state.meetings[state.currentMeetingId - 1];
-            const content = meeting1Content; // Hardcoded to M1 for now
+            // MENGGUNAKAN KONTEN DINAMIS SESUAI ID PERTEMUAN
+            const content = getMeetingContent(state.currentMeetingId); 
             const screen = content[state.currentScreenIndex];
             const container = document.getElementById('app-container');
 
@@ -425,9 +414,8 @@
                 </div>
             `;
 
-            // Main Content Area
-            innerHTML += `<div class="glass rounded-2xl p-6 sm:p-10 mb-8 min-h-[450px] slide-in-right relative shadow-[0_8px_30px_rgb(0,0,0,0.5)] border-t border-slate-600/50 flex flex-col">
-                <div class="flex-grow">`;
+            // Main Content Area - Fixed Layout Overlap by separating content and buttons properly
+            innerHTML += `<div class="glass rounded-2xl p-6 sm:p-10 mb-8 slide-in-right shadow-[0_8px_30px_rgb(0,0,0,0.5)] border-t border-slate-600/50">`;
             
             // Tag based on type
             let tagColor = 'bg-slate-700 text-slate-300';
@@ -465,16 +453,15 @@
                  innerHTML += renderActivityRefleksi(screen.content);
             } else if (screen.activity === 'quiz-m1') {
                  innerHTML += renderMasteryCheckM1(screen.content);
+            } else if (screen.activity === 'quiz-generic') {
+                 innerHTML += renderGenericMastery(screen.content);
             } else {
-                // Default text rendering with markdown-like bold
                 const formattedContent = screen.content.replace(/\*\*(.*?)\*\*/g, '<strong class="text-sky-300 font-bold drop-shadow-md">$1</strong>').replace(/\n/g, '<br/>');
                 innerHTML += `<div class="text-lg text-slate-200 leading-relaxed max-w-3xl mb-8">${formattedContent}</div>`;
-                
-                // Show continue button for read-only screens
                 innerHTML += renderNavigationButtons(true); 
             }
 
-            innerHTML += `</div></div>`;
+            innerHTML += `</div>`;
             container.innerHTML = innerHTML;
 
             // Initialize drag and drop if needed
@@ -482,17 +469,18 @@
             if(screen.activity === 'robot-maze') initRobotMaze();
         }
 
+        // Fixed layout overlap in Navigation Buttons by using mt-10 and removing absolute bottom positioning inside content
         function renderNavigationButtons(canProceed, customAction = null) {
-            let html = `</div><div class="mt-auto pt-6 border-t border-slate-700/50 flex justify-end gap-3 sm:gap-4 w-full relative z-20">`;
+            let html = `<div class="mt-10 pt-6 border-t border-slate-700/50 flex justify-end gap-3 sm:gap-4 w-full">`;
             
             if (state.currentScreenIndex > 0) {
-                html += `<button onclick="prevScreen()" class="px-5 py-2.5 rounded-xl bg-slate-700/80 hover:bg-slate-600 text-white font-medium transition-all shadow-md hover:shadow-lg focus:ring-2 focus:ring-slate-400 focus:outline-none flex items-center gap-2 border border-slate-600/50">
+                html += `<button onclick="prevScreen()" class="px-5 py-2.5 rounded-xl bg-slate-700/80 hover:bg-slate-600 text-white font-medium transition-all shadow-md hover:shadow-lg flex items-center gap-2 border border-slate-600/50">
                     <i class="fa-solid fa-chevron-left text-sm"></i> Kembali
                 </button>`;
             }
 
             if (customAction) {
-                 html += `<button onclick="${customAction}" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-bold transition-all shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] focus:ring-2 focus:ring-sky-400 focus:outline-none flex items-center gap-2 border border-sky-400/50">
+                 html += `<button onclick="${customAction}" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-bold transition-all shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] flex items-center gap-2 border border-sky-400/50">
                     Cek Jawaban <i class="fa-solid fa-check text-sm"></i>
                 </button>`;
             } else if (canProceed) {
@@ -501,7 +489,7 @@
                 const icon = isLast ? 'fa-flag-checkered' : 'fa-chevron-right';
                 const bgClass = isLast ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 shadow-[0_0_15px_rgba(34,197,94,0.4)] hover:shadow-[0_0_25px_rgba(34,197,94,0.6)] border border-green-400/50' : 'bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] border border-sky-400/50';
                 
-                html += `<button onclick="nextScreen()" class="px-6 py-2.5 rounded-xl ${bgClass} text-white font-bold transition-all focus:ring-2 focus:ring-sky-400 focus:outline-none flex items-center gap-2">
+                html += `<button onclick="nextScreen()" class="px-6 py-2.5 rounded-xl ${bgClass} text-white font-bold transition-all flex items-center gap-2">
                     ${btnText} <i class="fa-solid ${icon} text-sm"></i>
                 </button>`;
             }
@@ -511,9 +499,10 @@
         }
 
         function nextScreen() {
-            if (state.currentScreenIndex < meeting1Content.length - 1) {
+            const content = getMeetingContent(state.currentMeetingId);
+            if (state.currentScreenIndex < content.length - 1) {
                 state.currentScreenIndex++;
-                state.mistakeCount = 0; // Reset mistakes for next screen
+                state.mistakeCount = 0; 
                 renderScreen();
             } else {
                 finishMeeting();
@@ -529,12 +518,20 @@
         }
 
         function finishMeeting() {
-            // Check if mastery passed (handled in the mastery check activity, this is a fallback)
             const m = state.meetings[state.currentMeetingId - 1];
             if(m.mastery >= 80) {
                  m.status = 'menguasai';
-                 awardBadge('Algorithm Explorer', 'fa-solid fa-compass');
-                 showModal('🎉 Luar Biasa!', 'Kamu telah berhasil menyelesaikan Pertemuan 1 dan menguasai konsep Algoritma. Terus pertahankan!', 'Kembali ke Dashboard', renderDashboard);
+                 
+                 // Badge dinamis tergantung pertemuan
+                 let badgeName = 'Algorithm Explorer';
+                 let badgeIcon = 'fa-compass';
+                 if (state.currentMeetingId > 1) {
+                     badgeName = `Master of Misi ${state.currentMeetingId}`;
+                     badgeIcon = 'fa-star';
+                 }
+                 awardBadge(badgeName, `fa-solid ${badgeIcon}`);
+                 
+                 showModal('🎉 Luar Biasa!', `Kamu telah berhasil menyelesaikan Pertemuan ${state.currentMeetingId} dan menguasai konsep: ${m.focus}. Terus pertahankan!`, 'Kembali ke Dashboard', renderDashboard);
             } else {
                 showModal('Belum Mencapai Mastery', 'Nilai mastery kamu di bawah 80%. Yuk, ulangi lagi dan perhatikan petunjuknya!', 'Ulangi Materi', () => {
                     state.currentScreenIndex = 0;
@@ -575,7 +572,6 @@
                             <i class="fa-solid fa-list-check"></i> Urutan Benar (Lepas)
                         </h4>
                         <div id="target-list" class="flex flex-col gap-3 min-h-[200px] dropzone p-3 border-2 border-dashed border-sky-700/50 rounded-xl bg-sky-950/30">
-                            <!-- Items will be dropped here -->
                         </div>
                     </div>
                 </div>
@@ -650,7 +646,7 @@
             }
         }
 
-        // 2. Simple Quiz Activity (Latihan 1 & 2)
+        // 2. Simple Quiz Activity
         function renderActivityQuiz(screen) {
             let html = `<p class="text-lg text-slate-200 mb-8">${screen.content}</p>`;
             html += `<div class="grid grid-cols-1 gap-4 mb-8" id="quiz-options">`;
@@ -667,7 +663,6 @@
             });
             html += `</div>`;
             
-            // Store answer in a hidden data attribute on the container
             html += `<div id="quiz-data" data-answer="${screen.answer}" class="hidden"></div>`;
             html += renderNavigationButtons(false, 'checkQuiz()');
             return html;
@@ -699,6 +694,7 @@
             
             if (selectedOption === correctAnswer) {
                 addXP(15);
+                selectedOption = null; // reset for next
                 showModal('Benar!', 'Pemahamanmu tentang konsep ini sudah mantap. Jelaskan dengan bahasamu sendiri mengapa ini benar dalam hati.', 'Lanjut', nextScreen);
             } else {
                  state.mistakeCount++;
@@ -708,9 +704,8 @@
             }
         }
 
-        // 3. Debugging Activity (Error Lab)
+        // 3. Debugging Activity
         function renderActivityDebugCuci(content) {
-            // Using tailwind for a fake code editor look
             let html = `<p class="text-lg text-slate-200 mb-6 text-red-300 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Ada bug di algoritma ini! Bisakah kamu memperbaikinya?</p>`;
             
             const lines = [
@@ -757,14 +752,7 @@
                 return;
             }
 
-            // Correct order conceptually: Pakaian(3) -> Sabun(1) -> Nyalakan(4) -> Jemur(2)
-            // The selects are in visual order: Sabun, Jemur, Pakaian, Nyalakan
-            // So Sabun should be step 2, Jemur step 4, Pakaian step 1, Nyalakan step 3
-            // Let's make it simpler for the UI: they just need to map original line index to new step number.
-            // Original: [Sabun, Jemur, Pakaian, Nyalakan]
-            // Expected Step Num: ["2", "4", "1", "3"]
             const expected = ["2", "4", "1", "3"];
-            
             let isCorrect = true;
             for(let i=0; i<expected.length; i++) {
                 if(values[i] !== expected[i]) isCorrect = false;
@@ -806,14 +794,9 @@
             showModal('Tersimpan', 'Terima kasih atas refleksimu. Mengerti dimana kebingunganmu adalah langkah awal untuk menguasainya.', 'Lanjut', nextScreen);
         }
 
-    </script>
-
-    <script>
-        // 5. Robot Maze Simulation (Simulasi)
+        // 5. Robot Maze Simulation
         function renderActivityRobotMaze(content) {
              let html = `<p class="text-lg text-slate-200 mb-6">${content}</p>`;
-             
-             // Simple grid representation
              html += `
                 <div class="flex flex-col lg:flex-row gap-8 mb-8">
                     <!-- The Grid -->
@@ -864,7 +847,6 @@
                                 <span class="text-xs text-slate-400 bg-slate-900 px-2 py-1 rounded-md" id="cmd-count">0 / 8 Maks</span>
                             </div>
                             <div id="sim-commands" class="flex flex-wrap content-start gap-2 mb-6 min-h-[60px] p-4 bg-slate-900 rounded-xl border border-slate-700 shadow-inner flex-1">
-                                <!-- Commands appear here -->
                                 <span class="text-slate-600 text-sm italic w-full text-center mt-2" id="cmd-placeholder">Tekan tombol panah di bawah untuk menambah perintah</span>
                             </div>
                             
@@ -881,7 +863,7 @@
                     </div>
                 </div>
              `;
-             html += renderNavigationButtons(true); // Don't block progression, it's a sandbox
+             html += renderNavigationButtons(true);
              return html;
         }
 
@@ -894,24 +876,25 @@
             simCommands.push(dir);
             updateCommandsUI();
         }
+
         function clearCommands() {
             simCommands = [];
             updateCommandsUI();
             resetRobot();
         }
+
         function updateCommandsUI() {
             const container = document.getElementById('sim-commands');
             const placeholder = document.getElementById('cmd-placeholder');
             const countLabel = document.getElementById('cmd-count');
             
-            countLabel.innerText = `${simCommands.length} / 8 Maks`;
+            if(countLabel) countLabel.innerText = `${simCommands.length} / 8 Maks`;
             
             if (simCommands.length > 0) {
                 if(placeholder) placeholder.style.display = 'none';
                 container.innerHTML = simCommands.map((cmd, index) => {
                     const icon = cmd === 'right' ? 'fa-arrow-right' : 'fa-arrow-down';
-                    // Adding sequential animation delay for visual feedback
-                    return `<div class="w-10 h-10 bg-sky-900/50 border-2 border-sky-500/50 rounded-lg flex items-center justify-center text-sky-400 shadow-sm animate-[fadeIn_0.2s_ease-out_forwards]" style="opacity:0; animation-delay: ${index * 0.05}s"><i class="fa-solid ${icon}"></i></div>`;
+                    return `<div class="w-10 h-10 bg-sky-900/50 border-2 border-sky-500/50 rounded-lg flex items-center justify-center text-sky-400 shadow-sm transition-all" style="animation: fadeIn 0.2s ease-out forwards; opacity:0; animation-delay: ${index * 0.05}s"><i class="fa-solid ${icon}"></i></div>`;
                 }).join('');
             } else {
                  container.innerHTML = `<span class="text-slate-600 text-sm italic w-full text-center mt-2" id="cmd-placeholder">Tekan tombol panah di bawah untuk menambah perintah</span>`;
@@ -941,7 +924,6 @@
             let y = parseInt(robot.dataset.y || 0);
             let i = 0;
             
-            // Map of grid cells: 0 = empty, 1 = fire, 2 = goal
             const grid = [
                 [0, 0, 1, 0],
                 [0, 1, 0, 0],
@@ -962,8 +944,6 @@
                 if(cmd === 'right' && x < 3) x++;
                 if(cmd === 'down' && y < 3) y++;
                 
-                // Update position (approximate percentages based on 4x4 grid)
-                // Cell width ~25%, start at 4%, step is 25%
                 robot.style.left = (4 + x * 25) + '%';
                 robot.style.top = (4 + y * 25) + '%';
                 robot.dataset.x = x;
@@ -986,11 +966,10 @@
             }
         }
 
-        // 6. Mastery Check (Quiz M1)
+        // 6. Mastery Check
         function renderMasteryCheckM1(content) {
              let html = `<p class="text-lg text-slate-300 mb-8">${content}</p>`;
              
-             // Simple 3 question mastery check for demo
              const questions = [
                  { q: "Apa ciri utama dari sebuah algoritma yang baik?", opts: ["Menggunakan bahasa Inggris", "Langkah-langkahnya logis dan tidak ambigu (jelas)", "Dibuat oleh programmer ahli", "Sangat panjang dan rumit"], a: 1 },
                  { q: "Jika sebuah program error karena urutan perhitungannya terbalik, ini disebut masalah pada...", opts: ["Perangkat keras (Hardware)", "Sistem Operasi", "Algoritma (Logika urutan)", "Koneksi internet"], a: 2 },
@@ -1023,6 +1002,27 @@
 
              html += renderNavigationButtons(false, 'checkMastery()');
              return html;
+        }
+
+        // Generic Mastery Check for Meeting 2-30
+        function renderGenericMastery(content) {
+            let html = `<p class="text-lg text-slate-300 mb-8">${content}</p>`;
+            html += `<div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 text-center mb-8">
+                        <i class="fa-solid fa-laptop-code text-5xl text-sky-400 mb-4"></i>
+                        <h4 class="text-xl font-bold text-white mb-2">Simulasi Mastery Check</h4>
+                        <p class="text-slate-400 mb-6">Materi kuis interaktif spesifik untuk pertemuan ini (P${state.currentMeetingId}) akan segera ditambahkan. Untuk sementara, klik tombol di bawah untuk menyelesaikan misi secara otomatis.</p>
+                        <button onclick="addXP(50); finishMeetingSimulated()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold transition-all shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 mx-auto">
+                            <i class="fa-solid fa-check-circle"></i> Selesaikan Misi
+                        </button>
+                      </div>`;
+            return html;
+        }
+
+        function finishMeetingSimulated() {
+            const m = state.meetings[state.currentMeetingId - 1];
+            m.mastery = 100; // Set mastery otomatis ke 100%
+            saveState();
+            finishMeeting();
         }
 
         function checkMastery() {
@@ -1061,7 +1061,10 @@
                 });
             }
         }
+    </script>
 
+    <script>
+        // --- NOTIFICATIONS & MODALS ---
         function showNotification(message, type = 'info') {
             const container = document.getElementById('notification-container');
             const el = document.createElement('div');
@@ -1094,7 +1097,7 @@
                 <h3 class="text-2xl font-bold mb-4 text-white">${title}</h3>
                 <div class="text-slate-300 mb-8">${message}</div>
                 <div class="flex justify-end">
-                    <button id="modal-btn" class="px-6 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-bold transition-colors">
+                    <button id="modal-btn" class="px-6 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-bold transition-colors">
                         ${btnText}
                     </button>
                 </div>
@@ -1121,7 +1124,6 @@
             const masteredCount = state.meetings.filter(m => m.status === 'menguasai').length;
             document.getElementById('header-mastery').innerText = `${masteredCount}/30`;
             
-            // Simple leveling logic
             const level = Math.floor(state.xp / 100) + 1;
             document.getElementById('header-level').innerText = level;
         }

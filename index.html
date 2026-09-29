@@ -3,1140 +3,1507 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE QUEST IX - Mastering Algorithm</title>
-    <!-- Tailwind CSS -->
+    <title>ALGOLEARN IX - Petualangan Algoritma & Pemrograman</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Slate 900 - Dark theme */
-            color: #f8fafc; /* Slate 50 */
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1e293b; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #475569; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748b; 
-        }
-        
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .slide-in-right {
-            animation: slideInRight 0.4s ease-out forwards;
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Glassmorphism utility */
-        .glass {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Draggable Card styles for Game */
-        .draggable {
-            cursor: grab;
-        }
-        .draggable:active {
-            cursor: grabbing;
-        }
-        .dropzone {
-            min-height: 60px;
-            transition: background-color 0.2s;
-        }
-        .dropzone.dragover {
-            background-color: rgba(56, 189, 248, 0.2); /* Sky 400 with opacity */
-            border-style: dashed;
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+    
     <script>
-        // --- DATA & STATE MANAGEMENT ---
-        
-        // 30 Meetings Data Structure
-        const meetingsData = [
-            { id: 1, title: "Bagaimana Komputer Menyelesaikan Masalah?", focus: "Algoritma sebagai langkah-langkah logis dan terstruktur.", status: "sedang belajar", mastery: 0 },
-            { id: 2, title: "Berpikir Seperti Komputer", focus: "Dekomposisi masalah", status: "sedang belajar", mastery: 0 },
-            { id: 3, title: "Mengenal Pemrograman Visual Blok", focus: "Program visual berbasis blok", status: "sedang belajar", mastery: 0 },
-            { id: 4, title: "Scratch vs Blockly", focus: "Perbandingan visual dan prosedural", status: "sedang belajar", mastery: 0 },
-            { id: 5, title: "Urutan Instruksi", focus: "Sequence", status: "sedang belajar", mastery: 0 },
-            { id: 6, title: "Variabel: Kotak Penyimpan Data", focus: "Variabel", status: "sedang belajar", mastery: 0 },
-            { id: 7, title: "Input → Process → Output", focus: "IPO", status: "sedang belajar", mastery: 0 },
-            { id: 8, title: "Percabangan: Program Harus Bisa Memilih", focus: "IF / kondisi", status: "sedang belajar", mastery: 0 },
-            { id: 9, title: "Perulangan: Jangan Menulis Hal yang Sama...", focus: "Loop", status: "sedang belajar", mastery: 0 },
-            { id: 10, title: "Mengapa Program Perlu Dipecah?", focus: "Konsep modularisasi", status: "sedang belajar", mastery: 0 },
-            { id: 11, title: "Membuat Modul Pertama", focus: "Membuat dan memanggil modul", status: "sedang belajar", mastery: 0 },
-            { id: 12, title: "Parameter: Modul yang Bisa Menerima Data", focus: "Parameter", status: "sedang belajar", mastery: 0 },
-            { id: 13, title: "Function atau Procedure?", focus: "Function vs Procedure", status: "sedang belajar", mastery: 0 },
-            { id: 14, title: "Library: Gunakan Kembali Program...", focus: "Library dan reuse", status: "sedang belajar", mastery: 0 },
-            { id: 15, title: "Literasi Numerik: Program Menghitung...", focus: "Menyelesaikan masalah numerik", status: "sedang belajar", mastery: 0 },
-            { id: 16, title: "Fungsi Kuadrat Menjadi Program", focus: "Fungsi kuadrat", status: "sedang belajar", mastery: 0 },
-            { id: 17, title: "Memetakan Fungsi Kuadrat", focus: "Pemetaan visual grafik", status: "sedang belajar", mastery: 0 },
-            { id: 18, title: "Pemrograman untuk Sains", focus: "Pola pertumbuhan organisme", status: "sedang belajar", mastery: 0 },
-            { id: 19, title: "Simulasi Pertumbuhan N Hari", focus: "Perulangan + modularisasi", status: "sedang belajar", mastery: 0 },
-            { id: 20, title: "Apa Itu Sistem Bilangan?", focus: "Konsep basis bilangan", status: "sedang belajar", mastery: 0 },
-            { id: 21, title: "Biner ↔ Desimal", focus: "Konversi biner dan desimal", status: "sedang belajar", mastery: 0 },
-            { id: 22, title: "Oktal ↔ Desimal", focus: "Konversi oktal dan desimal", status: "sedang belajar", mastery: 0 },
-            { id: 23, title: "Heksadesimal ↔ Desimal", focus: "Konversi heksadesimal dan desimal", status: "sedang belajar", mastery: 0 },
-            { id: 24, title: "Membuat Konverter Sistem Bilangan", focus: "Gabungan function konverter", status: "sedang belajar", mastery: 0 },
-            { id: 25, title: "Mengapa Data Bisa Rusak Saat Dikirim?", focus: "Konsep error pengiriman", status: "sedang belajar", mastery: 0 },
-            { id: 26, title: "Parity Bit", focus: "Deteksi kesalahan sederhana", status: "sedang belajar", mastery: 0 },
-            { id: 27, title: "Bisa Mendeteksi Error, tetapi Tidak...", focus: "Keterbatasan parity bit", status: "sedang belajar", mastery: 0 },
-            { id: 28, title: "Flowchart → Program", focus: "Translasi algoritma ke blok", status: "sedang belajar", mastery: 0 },
-            { id: 29, title: "Program → Pseudocode → Program", focus: "Translasi representasi algoritma", status: "sedang belajar", mastery: 0 },
-            { id: 30, title: "FINAL MISSION", focus: "BUILD YOUR OWN DIGITAL SOLUTION", status: "sedang belajar", mastery: 0 }
-        ];
-
-        // Meeting 1 Screens Content
-        const meeting1Content = [
-            { type: 'pemantik', title: 'Kenapa komputer bisa pintar?', content: 'Sebenarnya komputer tidak pintar. Komputer hanya benda mati yang sangat cepat melakukan perintah. Pertanyaannya, bagaimana komputer tahu urutan perintah yang harus dikerjakan agar masalah selesai?' },
-            { type: 'challenge', title: 'Coba Dulu: Membuat Mi Instan', content: 'Jika kamu diminta membuatkan sistem robot pembuat mi instan, urutkan langkah-langkah acak ini menjadi urutan yang benar!', activity: 'sort-mi' },
-            { type: 'konsep', title: 'Algoritma', content: 'Algoritma adalah **langkah-langkah logis dan terstruktur** untuk menyelesaikan masalah.\n\nBayangkan algoritma seperti resep masakan. Jika langkahnya benar dan urutannya pas, masakannya enak. Jika terbalik, bisa gagal total!' },
-            { type: 'contoh', title: 'Algoritma dalam Keseharian', content: 'Setiap hari kamu menjalankan algoritma tanpa sadar. \n\nMisalnya algoritma berangkat sekolah:\n1. Bangun tidur\n2. Mandi\n3. Pakai seragam\n4. Sarapan\n5. Pergi ke sekolah\n\nApakah mungkin kamu memakai seragam dulu baru mandi?' },
-            { type: 'simulasi', title: 'Algorithm Builder', content: 'Susunlah kartu instruksi berikut untuk membantu robot mencapai tujuan (kotak hijau) menghindari rintangan (kotak merah).', activity: 'robot-maze' },
-            { type: 'latihan1', title: 'Level 1: Pahami', content: 'Manakah dari pernyataan berikut yang paling tepat mendeskripsikan Algoritma?', options: ['Bahasa pemrograman yang digunakan komputer', 'Langkah-langkah logis dan terstruktur untuk menyelesaikan masalah', 'Perangkat keras yang mengeksekusi program', 'Aplikasi untuk membuat game'], answer: 1 },
-            { type: 'latihan2', title: 'Level 2: Terapkan', content: 'Sebuah resep kue membutuhkan langkah "Panggang selama 30 menit" dan "Campur tepung dan telur". Langkah mana yang harus ditulis lebih dulu dalam algoritma?', options: ['Panggang selama 30 menit', 'Campur tepung dan telur', 'Bisa dikerjakan bersamaan', 'Tergantung suhu oven'], answer: 1 },
-            { type: 'error_lab', title: 'Error Lab', content: 'Diberikan algoritma mencuci pakaian kotor:\n1. Masukkan sabun\n2. Jemur pakaian\n3. Masukkan pakaian ke mesin cuci\n4. Nyalakan mesin cuci\n\nTemukan bug (kesalahan urutan) pada algoritma di atas!', activity: 'debug-cuci' },
-            { type: 'refleksi', title: 'Refleksi Diri', content: 'Apa yang kamu pahami tentang pertemuan hari ini? Bagian mana yang menurutmu paling sulit saat menyusun algoritma?', activity: 'textarea' },
-            { type: 'mastery', title: 'Mastery Check', content: 'Jawab 5 pertanyaan berikut untuk membuktikan penguasaanmu terhadap konsep Algoritma.', activity: 'quiz-m1' }
-        ];
-
-        // Application State
-        let state = {
-            studentName: "Siswa IX",
-            xp: 0,
-            badges: [],
-            currentMeetingId: 1,
-            currentScreenIndex: 0,
-            meetings: [],
-            mistakeCount: 0
-        };
-
-        // --- LOCAL STORAGE HANDLING ---
-        function loadState() {
-            const savedState = localStorage.getItem('codeQuestState');
-            if (savedState) {
-                state = JSON.parse(savedState);
-                // Ensure all meetings are unlocked
-                state.meetings.forEach(m => {
-                    if (m.status === 'locked' || m.status === 'belum mulai') {
-                        m.status = 'sedang belajar';
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Nunito', 'sans-serif'],
+                        mono: ['Courier New', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            900: '#0f172a', // Deep Blue
+                            800: '#1e293b',
+                            700: '#334155',
+                            accent: '#0ea5e9', // Cyan
+                            purple: '#8b5cf6',
+                            orange: '#f97316',
+                            success: '#10b981',
+                            danger: '#ef4444'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pop-in': 'popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.8) translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'scale(1) translateY(0)' }
+                        }
                     }
-                });
-            } else {
-                state.meetings = JSON.parse(JSON.stringify(meetingsData));
-                saveState();
-            }
-        }
-
-        function saveState() {
-            localStorage.setItem('codeQuestState', JSON.stringify(state));
-        }
-
-        // --- UTILS ---
-        function getStatusIcon(status) {
-            switch(status) {
-                case 'menguasai': return '<i class="fa-solid fa-circle-check text-green-400"></i>';
-                case 'sudah latihan': return '<i class="fa-solid fa-circle-play text-blue-400"></i>';
-                case 'sedang belajar': return '<i class="fa-solid fa-spinner fa-spin text-yellow-400"></i>';
-                default: return '<i class="fa-solid fa-play text-sky-400"></i>';
-            }
-        }
-
-        function addXP(amount) {
-            state.xp += amount;
-            saveState();
-            showNotification(`+${amount} XP!`);
-            updateHeaderInfo();
-        }
-
-        function awardBadge(badgeName, iconClass) {
-            if (!state.badges.some(b => b.name === badgeName)) {
-                state.badges.push({ name: badgeName, icon: iconClass });
-                saveState();
-                showNotification(`🏆 Badge Baru Diperoleh: ${badgeName}!`, 'badge');
+                }
             }
         }
     </script>
+    
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item.active { background: linear-gradient(90deg, rgba(14, 165, 233, 0.2) 0%, transparent 100%); border-left: 4px solid #0ea5e9; color: #38bdf8;}
+        
+        .map-node { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.3s; position: relative; z-index: 10; font-size: 1.1rem; }
+        .map-node.locked { background: #334155; color: #94a3b8; border: 2px solid #475569; cursor: not-allowed;}
+        .map-node.unlocked { background: #0ea5e9; color: white; border: 2px solid #38bdf8; box-shadow: 0 0 20px rgba(14,165,233,0.6); animation: pulse-slow 2s infinite;}
+        .map-node.completed { background: #10b981; color: white; border: 2px solid #34d399; box-shadow: 0 0 10px rgba(16,185,129,0.3);}
+        
+        .map-line { position: absolute; height: 4px; background: #334155; z-index: 1; transform-origin: left center; }
+        .map-line.completed { background: #10b981; }
 
-    <!-- Header -->
-    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="renderDashboard()">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                    CQ
-                </div>
-                <div>
-                    <h1 class="font-bold tracking-wider text-sky-400">CODE QUEST IX</h1>
-                    <p class="text-xs text-slate-400 hidden sm:block">Mastering Algorithm</p>
-                </div>
+        .lab-block { padding: 10px; margin: 6px 0; border-radius: 8px; background: #1e293b; border-left: 4px solid #8b5cf6; display: flex; gap: 8px; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+        
+        .code-snippet { font-family: 'Courier New', Courier, monospace; background: #000; padding: 12px; border-radius: 8px; color: #a78bfa; border: 1px solid #334155; overflow-x: auto; font-size: 0.9rem;}
+        .keyword { color: #f472b6; }
+        .string { color: #34d399; }
+        .func { color: #60a5fa; }
+    </style>
+</head>
+<body class="flex h-screen antialiased selection:bg-brand-accent selection:text-white">
+
+    <aside class="w-64 glass-panel border-r border-slate-700 hidden md:flex flex-col flex-shrink-0 z-20">
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-accent to-brand-purple flex items-center justify-center text-xl shadow-lg shadow-brand-accent/30">
+                <i class="fa-solid fa-laptop-code text-white"></i>
             </div>
-            
-            <div class="flex items-center gap-6">
-                <!-- XP Display -->
-                <div class="hidden sm:flex items-center gap-2 bg-slate-900 rounded-full px-4 py-1.5 border border-slate-700">
-                    <i class="fa-solid fa-bolt text-yellow-400"></i>
-                    <span id="header-xp" class="font-bold text-yellow-400">0 XP</span>
-                </div>
-                
-                <!-- Mastery Display -->
-                <div class="hidden md:flex items-center gap-2 bg-slate-900 rounded-full px-4 py-1.5 border border-slate-700" title="Konsep yang Dikuasai">
-                    <i class="fa-solid fa-star text-green-400"></i>
-                    <span id="header-mastery" class="font-bold text-green-400">0/30</span>
-                </div>
-
-                <!-- User Profile -->
-                <div class="flex items-center gap-3">
-                    <div class="text-right hidden sm:block">
-                        <p class="text-sm font-semibold" id="header-name">Siswa</p>
-                        <p class="text-xs text-slate-400">Level <span id="header-level">1</span></p>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-600 flex items-center justify-center text-slate-300">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                </div>
-                
-                <!-- Teacher Mode Toggle -->
-                <button onclick="toggleTeacherMode()" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-                    <i class="fa-solid fa-chalkboard-user"></i> Guru
-                </button>
+            <div>
+                <h1 class="font-heading font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-purple">ALGOLEARN</h1>
+                <p class="text-xs text-slate-400 font-bold tracking-widest">KELAS IX (2022)</p>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content Container -->
-    <main id="app-container" class="flex-grow container mx-auto px-4 py-8 relative">
-        <!-- Content will be injected here by JS -->
+        <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+            <button onclick="nav('home')" id="nav-home" class="nav-item active w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white rounded-r-lg transition-colors text-left">
+                <i class="fa-solid fa-house w-5"></i> <span class="font-medium">Beranda</span>
+            </button>
+            <button onclick="nav('map')" id="nav-map" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white border-l-4 border-transparent rounded-r-lg transition-colors text-left">
+                <i class="fa-solid fa-map-location-dot w-5"></i> <span class="font-medium">Peta Belajar</span>
+            </button>
+            <button onclick="nav('lab')" id="nav-lab" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white border-l-4 border-transparent rounded-r-lg transition-colors text-left">
+                <i class="fa-solid fa-flask w-5"></i> <span class="font-medium">Lab Logika</span>
+            </button>
+            <button onclick="nav('report')" id="nav-report" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white border-l-4 border-transparent rounded-r-lg transition-colors text-left">
+                <i class="fa-solid fa-chart-pie w-5"></i> <span class="font-medium">Rapor & Badge</span>
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-slate-700">
+            <div class="bg-slate-800 rounded-lg p-4 shadow-inner">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-slate-400 text-xs font-bold uppercase"><i class="fa-solid fa-star text-brand-orange"></i> Total XP</span>
+                    <span id="sidebar-xp" class="font-black text-brand-accent">0</span>
+                </div>
+                <div class="w-full bg-slate-900 rounded-full h-2 mt-2">
+                    <div id="sidebar-progress" class="bg-gradient-to-r from-brand-accent to-brand-purple h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                </div>
+            </div>
+            <button onclick="nav('teacher')" class="mt-4 w-full text-xs text-slate-500 hover:text-slate-300 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-user-gear"></i> Mode Guru (Reset)
+            </button>
+        </div>
+    </aside>
+
+    <div class="md:hidden fixed top-4 right-4 z-50">
+        <button onclick="toggleMobileNav()" class="w-12 h-12 bg-brand-800 shadow-lg shadow-black/50 rounded-full flex items-center justify-center border border-slate-600">
+            <i class="fa-solid fa-bars text-white text-lg"></i>
+        </button>
+    </div>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto relative scroll-smooth" id="main-scroll">
+        
+        <!-- VIEW: HOME -->
+        <div id="view-home" class="p-6 md:p-10 max-w-6xl mx-auto w-full pb-24">
+            <div class="flex flex-col md:flex-row items-center gap-10 bg-gradient-to-br from-brand-800 to-brand-900 border border-slate-700 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-96 h-96 bg-brand-accent/20 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-brand-purple/20 rounded-full blur-3xl"></div>
+                <div class="flex-1 z-10">
+                    <div class="inline-block bg-brand-accent/20 text-brand-accent px-4 py-1.5 rounded-full text-sm font-bold mb-4 border border-brand-accent/30">
+                        Berdasarkan Buku Informatika Kelas IX (2022)
+                    </div>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-heading font-black mb-6 text-white leading-tight">Petualangan Algoritma & Pemrograman</h2>
+                    <p class="text-slate-300 text-lg md:text-xl mb-8 leading-relaxed max-w-2xl">Mari belajar logika dari nol! Menyusun instruksi komputasi, mengenal Scratch dan Blockly, hingga bermain dengan robot pintar Ozobot.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="nav('map')" class="bg-gradient-to-r from-brand-accent to-brand-purple text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-brand-purple/30 hover:scale-105 transition-transform flex items-center gap-3">
+                            <i class="fa-solid fa-rocket"></i> Mulai Petualangan
+                        </button>
+                    </div>
+                </div>
+                <div class="w-48 h-48 md:w-72 md:h-72 flex-shrink-0 relative animate-float z-10">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Code Symbol Graphic -->
+                        <rect x="20" y="40" width="160" height="120" rx="10" fill="#1e293b" stroke="#475569" stroke-width="4"/>
+                        <circle cx="40" cy="60" r="5" fill="#ef4444"/>
+                        <circle cx="60" cy="60" r="5" fill="#f59e0b"/>
+                        <circle cx="80" cy="60" r="5" fill="#10b981"/>
+                        <line x1="20" y1="80" x2="180" y2="80" stroke="#475569" stroke-width="2"/>
+                        <!-- Code lines -->
+                        <path d="M40,100 L70,120 L40,140" fill="none" stroke="#0ea5e9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="80" y="115" width="60" height="10" rx="3" fill="#8b5cf6" opacity="0.8"/>
+                        <rect x="50" y="145" width="40" height="10" rx="3" fill="#f97316" opacity="0.8"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                <div class="glass-panel p-6 rounded-2xl flex items-center gap-5 hover:bg-slate-800 transition-colors cursor-pointer" onclick="nav('map')">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-accent/20 to-brand-accent/5 flex items-center justify-center text-brand-accent text-3xl border border-brand-accent/20"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold tracking-widest mb-1">PROGRES MATERI</p>
+                        <p class="text-3xl font-black text-white"><span id="home-progress">0</span> <span class="text-lg text-slate-500 font-normal">/ 18</span></p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex items-center gap-5">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-orange/20 to-brand-orange/5 flex items-center justify-center text-brand-orange text-3xl border border-brand-orange/20"><i class="fa-solid fa-star"></i></div>
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold tracking-widest mb-1">TOTAL XP</p>
+                        <p class="text-3xl font-black text-white" id="home-xp">0</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex items-center gap-5 hover:bg-slate-800 transition-colors cursor-pointer" onclick="nav('report')">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-purple/20 to-brand-purple/5 flex items-center justify-center text-brand-purple text-3xl border border-brand-purple/20"><i class="fa-solid fa-medal"></i></div>
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold tracking-widest mb-1">BADGE DIDAPAT</p>
+                        <p class="text-3xl font-black text-white" id="home-badges">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: MAP -->
+        <div id="view-map" class="hidden p-6 md:p-10 w-full relative pb-24">
+            <div class="max-w-4xl mx-auto mb-10 text-center">
+                <h2 class="text-4xl font-heading font-black mb-4"><i class="fa-solid fa-map-location-dot text-brand-accent mr-3"></i>Peta Perjalanan Belajar</h2>
+                <p class="text-slate-400 text-lg">Setiap pertemuan dirancang untuk durasi 2 Jam Pelajaran (2 x 40 menit). Selesaikan materi secara berurutan untuk membuka materi berikutnya yang lebih mendalam.</p>
+            </div>
+            
+            <div class="relative max-w-4xl mx-auto py-10" id="map-container">
+                <!-- Map nodes generated by JS -->
+            </div>
+        </div>
+
+        <!-- VIEW: LESSON (Dynamic) -->
+        <div id="view-lesson" class="hidden p-0 w-full pb-24 flex-1 flex flex-col bg-[#0b1120]">
+            <!-- Header Sticky -->
+            <div class="bg-brand-900/90 backdrop-blur-md border-b border-slate-700 p-4 px-6 md:px-10 flex justify-between items-center sticky top-0 z-30 shadow-lg">
+                <button onclick="nav('map')" class="text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-full font-medium transition-colors flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+                <div class="text-center flex-1 px-4 overflow-hidden">
+                    <span class="text-xs font-bold tracking-widest text-brand-accent bg-brand-accent/10 px-3 py-1 rounded-full inline-block mb-1" id="lesson-subtitle">PERTEMUAN X</span>
+                    <h2 class="text-lg md:text-xl font-heading font-bold truncate text-white" id="lesson-title">Judul Materi</h2>
+                </div>
+                <div class="bg-gradient-to-r from-brand-orange to-amber-500 px-4 py-2 rounded-full shadow-lg shadow-brand-orange/20 text-sm font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-star"></i> <span>+50 XP</span>
+                </div>
+            </div>
+
+            <!-- Content Container -->
+            <div class="max-w-4xl mx-auto w-full p-6 md:p-10 space-y-12" id="lesson-content">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- VIEW: LAB -->
+        <div id="view-lab" class="hidden p-6 md:p-10 w-full h-full flex flex-col pb-24">
+            <div class="max-w-6xl mx-auto w-full flex-1 flex flex-col">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-heading font-black mb-2 flex items-center gap-3"><i class="fa-solid fa-flask text-brand-purple"></i> Laboratorium Logika</h2>
+                    <p class="text-slate-400">Susun instruksi (pseudocode/blok) secara berurutan. Area ini mensimulasikan bagaimana komputer memproses Input, melakukan Perhitungan (Proses), dan menghasilkan Output secara nyata.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-[500px]">
+                    <!-- Editor Panel -->
+                    <div class="lg:col-span-7 glass-panel border border-slate-700 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+                        <div class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
+                            <span class="font-bold flex items-center gap-2"><i class="fa-solid fa-puzzle-piece text-brand-accent"></i> Ruang Editor Instruksi</span>
+                            <div class="flex gap-2">
+                                <button onclick="labRun()" class="bg-brand-success hover:bg-emerald-400 text-white text-sm px-4 py-2 rounded-lg font-bold transition-transform hover:scale-105 shadow-lg shadow-brand-success/20"><i class="fa-solid fa-play mr-2"></i> Eksekusi Program</button>
+                                <button onclick="labReset()" class="bg-slate-700 hover:bg-slate-600 text-white text-sm px-4 py-2 rounded-lg transition-colors tooltip" title="Bersihkan Semua"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 overflow-y-auto bg-[#0b1120] relative" id="lab-editor">
+                            <!-- Blocks injected here -->
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 pointer-events-none" id="lab-empty-state">
+                                <i class="fa-solid fa-code text-5xl mb-4 opacity-20"></i>
+                                <p class="text-sm font-medium">Area kode masih kosong.</p>
+                                <p class="text-xs mt-1">Tambahkan blok instruksi dari menu di bawah.</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800 p-4 border-t border-slate-700">
+                            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">Pustaka Blok Instruksi:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="labAddBlock('input')" class="bg-brand-accent/10 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/30 text-sm px-4 py-2 rounded-lg transition-colors font-medium flex items-center gap-2"><i class="fa-solid fa-keyboard"></i> BACA (Input)</button>
+                                <button onclick="labAddBlock('process')" class="bg-brand-purple/10 hover:bg-brand-purple/30 text-brand-purple border border-brand-purple/30 text-sm px-4 py-2 rounded-lg transition-colors font-medium flex items-center gap-2"><i class="fa-solid fa-calculator"></i> HITUNG (Proses)</button>
+                                <button onclick="labAddBlock('output')" class="bg-brand-orange/10 hover:bg-brand-orange/30 text-brand-orange border border-brand-orange/30 text-sm px-4 py-2 rounded-lg transition-colors font-medium flex items-center gap-2"><i class="fa-solid fa-desktop"></i> CETAK (Output)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output & State Panel -->
+                    <div class="lg:col-span-5 flex flex-col gap-6">
+                        <!-- Terminal -->
+                        <div class="glass-panel border border-slate-700 rounded-2xl flex flex-col flex-1 shadow-xl overflow-hidden">
+                            <div class="bg-slate-800 p-4 border-b border-slate-700 flex items-center gap-2">
+                                <div class="flex gap-1.5 mr-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <span class="font-bold text-sm text-slate-300">Terminal Konsol</span>
+                            </div>
+                            <div class="p-5 flex-1 bg-black font-mono text-sm text-green-400 overflow-y-auto leading-relaxed" id="lab-output">
+                                <span class="text-slate-500">ALGOS ></span> Sistem siap menerima kompilasi...
+                            </div>
+                        </div>
+                        <!-- Memory State -->
+                        <div class="glass-panel border border-slate-700 rounded-2xl flex flex-col h-56 shadow-xl overflow-hidden">
+                            <div class="bg-slate-800 p-4 border-b border-slate-700">
+                                <span class="font-bold text-sm text-slate-300 flex items-center gap-2"><i class="fa-solid fa-memory text-brand-orange"></i> Kondisi Memori (Variabel)</span>
+                            </div>
+                            <div class="p-5 flex-1 bg-[#0b1120] overflow-y-auto grid grid-cols-2 gap-3 content-start" id="lab-memory">
+                                <!-- Variables injected here -->
+                                <div class="text-slate-500 text-sm italic col-span-2 text-center mt-4">Belum ada variabel yang tersimpan di RAM.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: REPORT -->
+        <div id="view-report" class="hidden p-6 md:p-10 max-w-5xl mx-auto w-full pb-24">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-heading font-black mb-4"><i class="fa-solid fa-chart-pie text-brand-success mr-3"></i>Rapor & Pencapaian</h2>
+                <p class="text-slate-400">Pantau perkembangan belajarmu, evaluasi nilai kuis, dan pamerkan lencana (badge) yang telah kamu kumpulkan!</p>
+            </div>
+            
+            <div class="glass-panel p-8 rounded-3xl mb-10 flex flex-col md:flex-row items-center gap-8 justify-between relative overflow-hidden">
+                <div class="absolute right-0 bottom-0 w-64 h-64 bg-brand-success/10 rounded-full blur-3xl"></div>
+                <div class="flex items-center gap-6 z-10">
+                    <div class="w-24 h-24 rounded-full border-4 border-brand-accent flex items-center justify-center text-4xl bg-slate-900 font-black shadow-lg shadow-brand-accent/30" id="report-level">L1</div>
+                    <div>
+                        <p class="text-sm text-slate-400 font-bold tracking-widest mb-1">GELAR SAAT INI</p>
+                        <h3 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white" id="report-title">Pemula Algoritma</h3>
+                    </div>
+                </div>
+                <div class="text-center md:text-right bg-slate-900/50 p-6 rounded-2xl border border-slate-700 z-10">
+                    <p class="text-sm text-slate-400 font-bold mb-1">TOTAL EXPERIENCE PONT (XP)</p>
+                    <p class="text-5xl font-black text-brand-orange drop-shadow-md" id="report-xp">0</p>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i class="fa-solid fa-award text-brand-purple"></i> Lencana (Badges) Koleksimu</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" id="badge-container">
+                    <!-- Badges injected via JS -->
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i class="fa-solid fa-list-check text-brand-accent"></i> Riwayat Evaluasi Pembelajaran</h3>
+                <div class="glass-panel rounded-2xl overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead class="bg-slate-800 text-slate-300 font-bold uppercase tracking-wider text-xs">
+                                <tr>
+                                    <th class="p-5 border-b border-slate-700">Misi</th>
+                                    <th class="p-5 border-b border-slate-700">Materi Pelajaran</th>
+                                    <th class="p-5 border-b border-slate-700 text-center">Status</th>
+                                    <th class="p-5 border-b border-slate-700 text-center">Nilai Evaluasi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-table" class="divide-y divide-slate-700/50 bg-slate-900/30">
+                                <!-- Table Rows injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: TEACHER -->
+        <div id="view-teacher" class="hidden p-6 md:p-10 max-w-3xl mx-auto w-full pb-24">
+            <div class="bg-gradient-to-r from-brand-purple/20 to-transparent border-l-4 border-brand-purple rounded-r-2xl p-6 mb-8">
+                <h2 class="text-3xl font-heading font-black mb-2 text-white flex items-center gap-3"><i class="fa-solid fa-user-gear text-brand-purple"></i> Mode Guru & Sistem</h2>
+                <p class="text-slate-300">Halaman khusus instruktur untuk memeriksa rekam jejak data mentah (Local Storage) dan melakukan reset aplikasi.</p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl mb-8 border-red-500/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-2xl"></div>
+                <h3 class="font-black text-xl mb-4 text-red-400 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Zona Berbahaya (Danger Zone)</h3>
+                <p class="text-slate-300 mb-6 leading-relaxed">Tindakan di bawah ini akan menghapus <b>seluruh progres belajar, nilai evaluasi, XP, dan lencana</b> secara permanen pada perangkat ini. Data tidak dapat dipulihkan kembali.</p>
+                <button onclick="resetData()" class="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/50 px-6 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-red-500/20 flex items-center gap-2">
+                    <i class="fa-solid fa-trash-can"></i> Hapus Seluruh Progres Siswa
+                </button>
+            </div>
+            
+            <div class="glass-panel p-6 rounded-2xl">
+                <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-bug text-emerald-400"></i> Raw State Data (JSON)</h3>
+                <div class="bg-black p-4 rounded-xl border border-slate-700 relative">
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('debug-state').innerText); showModal('Tersalin', 'Data JSON berhasil disalin ke clipboard.', 'success')" class="absolute top-4 right-4 text-slate-500 hover:text-white bg-slate-800 p-2 rounded text-xs transition-colors"><i class="fa-solid fa-copy"></i> Salin</button>
+                    <pre id="debug-state" class="text-xs text-emerald-400 overflow-x-auto font-mono whitespace-pre-wrap leading-loose"></pre>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <!-- Notification Container -->
-    <div id="notification-container" class="fixed bottom-4 right-4 flex flex-col gap-2 z-50"></div>
-
-    <!-- Modals -->
-    <div id="modal-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div id="modal-content" class="bg-slate-800 rounded-xl border border-slate-700 shadow-2xl max-w-lg w-full p-6 transform scale-95 transition-transform duration-200">
-            <!-- Modal inner content injected here -->
+    <!-- Custom Modal (Fixed Black Screen Issue with Pure CSS Animation) -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
+        <div id="modal-content" class="bg-slate-800 border border-slate-600 rounded-3xl shadow-2xl max-w-lg w-full p-8 relative overflow-hidden transform scale-95 opacity-0">
+            <!-- Background glow -->
+            <div id="modal-glow" class="absolute -top-20 -left-20 w-64 h-64 bg-brand-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="text-center mb-6 relative z-10" id="modal-icon">
+                <!-- Icon injected -->
+            </div>
+            <h3 class="text-3xl font-black text-center mb-4 text-white relative z-10" id="modal-title">Judul</h3>
+            <div class="text-slate-300 text-center mb-8 leading-relaxed max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar relative z-10" id="modal-desc">
+                <!-- Desc injected -->
+            </div>
+            <div class="flex flex-wrap justify-center gap-3 relative z-10" id="modal-actions">
+                <!-- Buttons injected -->
+            </div>
         </div>
     </div>
 
-
     <script>
-        // --- RENDER DASHBOARD ---
-        function renderDashboard() {
-            const container = document.getElementById('app-container');
-            
-            const masteredCount = state.meetings.filter(m => m.status === 'menguasai').length;
-            const progressPercent = (masteredCount / state.meetings.length) * 100;
+        const STORAGE_KEY = 'algolearn_v4_nonrevisi'; // Update key to force fresh state for new version
+        let appState = {
+            currentLevel: 1, // 1 to 18
+            xp: 0,
+            badges: [],
+            scores: {}, // { lessonId: score }
+            completedSimulations: []
+        };
 
-            let html = `
-                <div class="fade-in max-w-5xl mx-auto">
-                    <!-- Hero Section -->
-                    <div class="glass rounded-2xl p-8 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 border-sky-900/50">
-                        <div class="flex-1">
-                            <h2 class="text-3xl font-bold mb-2">Selamat Datang, ${state.studentName}!</h2>
-                            <p class="text-slate-300 mb-6 italic">"Pahami satu konsep. Kuasai satu keterampilan. Naik ke tantangan berikutnya."</p>
-                            
-                            <div class="mb-4">
-                                <div class="flex justify-between text-sm mb-1">
-                                    <span class="text-slate-400">Mastery Keseluruhan</span>
-                                    <span class="font-bold text-sky-400">${masteredCount} / 30 Konsep</span>
-                                </div>
-                                <div class="w-full bg-slate-700 rounded-full h-3">
-                                    <div class="bg-gradient-to-r from-sky-400 to-indigo-500 h-3 rounded-full transition-all duration-1000" style="width: ${progressPercent}%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex flex-wrap gap-3 mt-6">
-                                ${getPrimaryActionButton()}
-                                <button onclick="showNotification('Fitur Review Sedang Dikembangkan', 'info')" class="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors flex items-center gap-2">
-                                    <i class="fa-solid fa-rotate-left"></i> Review
-                                </button>
-                            </div>
+        // Lencana (Badges) Definitions
+        const BADGES = {
+            'b_komputasional': { id: 'b_komputasional', name: 'Pemikir Logis', icon: 'fa-brain', color: 'text-amber-400 border-amber-400', desc: 'Memahami dasar urutan algoritma.' },
+            'b_visual': { id: 'b_visual', name: 'Visual Coder', icon: 'fa-cubes', color: 'text-brand-accent border-brand-accent', desc: 'Mengenal Scratch & Blockly.' },
+            'b_variabel': { id: 'b_variabel', name: 'Master Memori', icon: 'fa-box-open', color: 'text-emerald-400 border-emerald-400', desc: 'Menggunakan Input & Variabel.' },
+            'b_cabang': { id: 'b_cabang', name: 'Pengambil Keputusan', icon: 'fa-code-branch', color: 'text-brand-purple border-brand-purple', desc: 'Menguasai Kondisi Logika.' },
+            'b_loop': { id: 'b_loop', name: 'Penakluk Iterasi', icon: 'fa-rotate', color: 'text-rose-400 border-rose-400', desc: 'Menggunakan blok perulangan.' },
+            'b_fungsi': { id: 'b_fungsi', name: 'Arsitek Modul', icon: 'fa-puzzle-piece', color: 'text-brand-orange border-brand-orange', desc: 'Membuat My Block (Modularisasi).' },
+            'b_library': { id: 'b_library', name: 'Pustakawan Kode', icon: 'fa-book-bookmark', color: 'text-indigo-400 border-indigo-400', desc: 'Membangun kumpulan modul mandiri.' },
+            'b_unplugged': { id: 'b_unplugged', name: 'Programmer Unplugged', icon: 'fa-hands', color: 'text-cyan-400 border-cyan-400', desc: 'Memecahkan masalah tanpa komputer.' },
+            'b_sains': { id: 'b_sains', name: 'Ilmuwan Data', icon: 'fa-flask', color: 'text-fuchsia-400 border-fuchsia-400', desc: 'Menganalisis literasi sains.' },
+            'b_konversi': { id: 'b_konversi', name: 'Ahli Basis Bilangan', icon: 'fa-binary', color: 'text-yellow-400 border-yellow-400', desc: 'Menguasai Biner, Oktal, Hex.' },
+            'b_parity': { id: 'b_parity', name: 'Detektif Data', icon: 'fa-user-secret', color: 'text-slate-300 border-slate-300', desc: 'Mendeteksi error dengan Parity Bit.' },
+            'b_ozobot': { id: 'b_ozobot', name: 'Master Robotika', icon: 'fa-robot', color: 'text-blue-500 border-blue-500', desc: 'Memprogram robot Ozobot.' }
+        };
+
+        /* DATA: LESSONS STRUCTURE (Berdasarkan Kurikulum 2022) */
+        const lessonsData = [
+            { id: 1, title: "Pengantar: Apa itu Algoritma?", desc: "Memahami cara kerja komputer yang kaku melalui analogi robot.", badge: 'b_komputasional' },
+            { id: 2, title: "Pengenalan Pemrograman Visual", desc: "Mengenal lingkungan Scratch dan Blockly.", badge: 'b_visual' },
+            { id: 3, title: "Variabel & Input/Output", desc: "Konsep dasar menyimpan data dalam literasi numerik.", badge: 'b_variabel' },
+            { id: 4, title: "Percabangan (Kondisi)", desc: "Menentukan jalur eksekusi berdasar syarat KKM.", badge: 'b_cabang' },
+            { id: 5, title: "Perulangan (Looping)", desc: "Mengulang instruksi dengan blok iterasi.", badge: 'b_loop' },
+            { id: 6, title: "Modularisasi 1: Pengantar", desc: "Memecah program besar menjadi bagian kecil.", badge: 'b_fungsi' },
+            { id: 7, title: "Modularisasi 2: Parameter", desc: "Membuat blok kustom (Make a Block) dengan input nilai." },
+            { id: 8, title: "Modularisasi 3: Pustaka (Library)", desc: "Mengumpulkan fungsi Luas Bangun Datar.", badge: 'b_library' },
+            { id: 9, title: "Modularisasi Unplugged", desc: "Belajar algoritma melalui permainan Gelang Warna-Warni.", badge: 'b_unplugged' },
+            { id: 10, title: "Literasi Sains: Prediksi 3 Hari", desc: "Memodelkan pertumbuhan bakteri sederhana." },
+            { id: 11, title: "Literasi Sains: Prediksi N Hari", desc: "Menggunakan perulangan untuk memprediksi jangka panjang.", badge: 'b_sains' },
+            { id: 12, title: "Literasi Sains: Capaian Pertumbuhan", desc: "Menentukan kapan bakteri mencapai target." },
+            { id: 13, title: "Mengenal Sistem Bilangan", desc: "Perbedaan Desimal, Biner, dan Oktal." },
+            { id: 14, title: "Konverter Basis Bilangan", desc: "Algoritma Modulo untuk konversi sistem angka.", badge: 'b_konversi' },
+            { id: 15, title: "Sistem Heksadesimal", desc: "Mengenal basis 16 dan konversinya." },
+            { id: 16, title: "Deteksi Error: Parity Bit Genap", desc: "Menjaga keutuhan data saat transmisi.", badge: 'b_parity' },
+            { id: 17, title: "Proyek: Poster 2 Bahasa", desc: "Merangkum kode Scratch dan Blockly." },
+            { id: 18, title: "Pemrograman Robot Ozobot", desc: "Menerapkan algoritma warna pada robot fisik.", badge: 'b_ozobot' }
+        ];
+
+        const lessonContentDB = {
+            1: {
+                ap: "Bayangkan kamu punya robot pelayan yang sangat patuh, tapi sama sekali tidak punya inisiatif. Jika kamu menyuruhnya 'Buatkan teh manis!', ia akan diam saja karena bingung. Kamu harus memberinya instruksi detail tahap demi tahap. Inilah yang disebut Algoritma!",
+                mat: `
+                    <div class="space-y-6">
+                        <div class="bg-slate-800 p-5 rounded-xl border-l-4 border-emerald-400 shadow-md">
+                            <h4 class="font-bold text-emerald-400 text-lg mb-2"><i class="fa-solid fa-list-ol mr-2"></i>Komputer itu "Bodoh"</h4>
+                            <p class="text-sm mb-3 text-slate-300">Banyak yang mengira komputer itu sangat pintar. Kenyataannya, komputer hanya benda mati yang sangat cepat dalam menghitung. Ia tidak bisa berpikir sendiri. Manusia-lah (Programmer) yang memberinya kepintaran melalui urutan instruksi yang disebut <b>Algoritma</b>.</p>
                         </div>
+                        <p class="text-sm text-slate-300">Syarat utama Algoritma adalah urutannya harus logis dan rinci. Jika urutannya salah, program akan *error* (gagal). Coba bayangkan algoritma memakai sepatu: 1) Pakai kaus kaki, 2) Masukkan kaki ke sepatu, 3) Ikat tali sepatu. Jika urutannya dibalik menjadi Ikat tali sepatu dulu baru pakai kaus kaki, tentu akan gagal!</p>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-brand-accent shadow-lg text-center">
+                        <h3 class="font-bold text-brand-accent mb-4 text-xl"><i class="fa-solid fa-mug-hot mr-2"></i>Mini Game: Mengajari Robot Membuat Teh</h3>
+                        <p class="text-sm text-slate-300 mb-6">Susunlah algoritma untuk robot ini dengan mengklik tombol secara berurutan agar logikanya benar!</p>
+                        <div class="flex flex-wrap justify-center gap-3 mb-6" id="sim1-buttons">
+                            <button onclick="sim1AddStep('Siapkan Gelas')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm">Siapkan Gelas</button>
+                            <button onclick="sim1AddStep('Masukkan Teh &amp; Gula')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm">Masukkan Teh &amp; Gula</button>
+                            <button onclick="sim1AddStep('Tuang Air Panas')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm">Tuang Air Panas</button>
+                            <button onclick="sim1AddStep('Aduk rata')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm">Aduk rata</button>
+                        </div>
+                        <div class="bg-black p-4 rounded-xl text-left min-h-[140px] mb-4">
+                            <ol id="sim1-output" class="list-decimal pl-5 text-brand-accent font-bold text-sm space-y-2"></ol>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="sim1Check()" class="flex-1 bg-brand-success text-white font-bold py-3 rounded-xl">Cek Logika Robot</button>
+                            <button onclick="sim1Reset()" class="bg-slate-700 text-white py-3 px-5 rounded-xl"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                        <p id="sim1-feedback" class="mt-4 text-sm font-bold hidden p-3 rounded"></p>
+                    </div>`
+            },
+            2: {
+                ap: "Menulis instruksi untuk komputer tidak bisa memakai bahasa Indonesia. Komputer memiliki bahasanya sendiri (Bahasa Pemrograman). Agar mudah dipelajari, diciptakanlah Pemrograman Visual berbasis blok puzzle.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Pada pemrograman visual, kamu tidak perlu mengetik kata per kata (yang rawan salah ketik). Kamu cukup menarik (drag) blok perintah dan menyusunnya (drop) seperti mainan Lego. Cara membacanya selalu dari <b>atas ke bawah</b>.</p>
                         
-                        <div class="w-full md:w-1/3 bg-slate-900/50 rounded-xl p-6 border border-slate-700">
-                            <h3 class="text-sm uppercase tracking-wider text-slate-400 mb-4 font-semibold text-center">Badge Kamu</h3>
-                            <div class="flex flex-wrap justify-center gap-4">
-                                ${renderBadges()}
+                        <div class="bg-slate-800 p-5 rounded-xl border-l-4 border-brand-accent shadow-md mt-4">
+                            <h4 class="font-bold text-brand-accent text-lg mb-2"><i class="fa-solid fa-puzzle-piece mr-2"></i>Kategori Blok Utama</h4>
+                            <p class="text-sm text-slate-300 mb-3">Meskipun bentuknya visual, blok-blok ini tetap mewakili perintah pemrograman sesungguhnya. Biasanya blok dibagi menjadi beberapa kategori warna:</p>
+                            <ul class="list-disc pl-5 space-y-2 text-sm text-slate-300">
+                                <li><span class="font-bold text-yellow-400">Events (Kejadian):</span> Blok pemicu, selalu di paling atas. Contoh: <i>When Flag Clicked</i>.</li>
+                                <li><span class="font-bold text-blue-400">Motion (Gerakan):</span> Mengatur posisi dan arah. Contoh: <i>Move 10 steps</i>.</li>
+                                <li><span class="font-bold text-purple-400">Looks (Tampilan):</span> Menampilkan dialog atau kostum. Contoh: <i>Say Hello!</i>.</li>
+                                <li><span class="font-bold text-amber-500">Control (Kontrol):</span> Mengatur alur logika seperti perulangan dan percabangan.</li>
+                            </ul>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+                            <div class="bg-slate-800 p-5 rounded-xl border border-orange-500/30">
+                                <h4 class="font-bold text-orange-400 text-lg mb-2"><i class="fa-solid fa-cat"></i> Lingkungan Scratch</h4>
+                                <p class="text-sm text-slate-300 mb-2">Komponen utamanya adalah:</p>
+                                <ul class="list-disc pl-5 space-y-1 text-sm text-slate-400">
+                                    <li><b>Sprite:</b> Karakter yang kamu beri instruksi.</li>
+                                    <li><b>Stage:</b> Layar tempat Sprite bergerak.</li>
+                                    <li><b>Script Area:</b> Tempat merangkai blok.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-800 p-5 rounded-xl border border-blue-500/30">
+                                <h4 class="font-bold text-blue-400 text-lg mb-2"><i class="fa-solid fa-cubes"></i> Lingkungan Blockly</h4>
+                                <p class="text-sm text-slate-300 mb-2">Berfokus pada logika murni tanpa harus ada animasi Sprite.</p>
+                                <p class="text-sm text-slate-300">Blok yang disusun dapat otomatis diterjemahkan (generate) menjadi teks kode asli seperti JavaScript atau Python!</p>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Roadmap Section -->
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-                        <i class="fa-solid fa-map-location-dot text-sky-400"></i> Peta Perjalanan Belajar
-                    </h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        ${renderMeetingsList()}
-                    </div>
-                </div>
-            `;
-            
-            container.innerHTML = html;
-        }
-
-        function getPrimaryActionButton() {
-            const inProgress = state.meetings.find(m => m.status === 'sedang belajar' || m.status === 'sudah latihan');
-            if (inProgress) {
-                return `
-                    <button onclick="startMeeting(${inProgress.id})" class="px-6 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-bold transition-colors shadow-lg shadow-sky-500/20 flex items-center gap-2">
-                        <i class="fa-solid fa-play"></i> Lanjutkan (Pertemuan ${inProgress.id})
-                    </button>
-                `;
-            }
-
-            return `
-                 <button onclick="startMeeting(1)" class="px-6 py-2 rounded-lg bg-green-500 hover:bg-green-400 text-white font-bold transition-colors shadow-lg flex items-center gap-2">
-                    <i class="fa-solid fa-play"></i> Mulai Belajar
-                </button>
-            `;
-        }
-
-        function renderBadges() {
-            if (state.badges.length === 0) {
-                return `<p class="text-sm text-slate-500 text-center w-full">Belum ada badge. Mulai belajar untuk mengumpulkan!</p>`;
-            }
-            return state.badges.map(b => `
-                <div class="flex flex-col items-center gap-1 group relative">
-                    <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-yellow-500 flex items-center justify-center text-xl text-yellow-400 shadow-lg shadow-yellow-500/20">
-                        <i class="${b.icon}"></i>
-                    </div>
-                    <span class="text-[10px] text-slate-300 text-center">${b.name}</span>
-                </div>
-            `).join('');
-        }
-
-        function renderMeetingsList() {
-            return state.meetings.map(m => {
-                const bgClass = m.status === 'menguasai' ? 'bg-green-900/20 border-green-500/50' : 
-                                m.status === 'sedang belajar' ? 'bg-sky-900/20 border-sky-500/50 ring-1 ring-sky-500' : 'bg-slate-800 border-slate-700';
-
-                return `
-                    <div onclick="startMeeting(${m.id})" class="cursor-pointer hover:border-sky-500 hover:shadow-lg hover:shadow-sky-500/10 hover:-translate-y-1 ${bgClass} rounded-xl p-5 border transition-all duration-200 h-full flex flex-col">
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="text-xs font-bold px-2 py-1 rounded bg-slate-900 text-slate-300">P ${m.id}</span>
-                            ${getStatusIcon(m.status)}
+                    </div>`,
+                sim: ""
+            },
+            3: {
+                ap: "Setiap program pasti membutuhkan data. Misalnya program kasir butuh data harga barang. Di mana program menyimpan data tersebut? Jawabannya ada pada konsep I-P-O (Input, Proses, Output) dan Variabel.",
+                mat: `
+                    <div class="space-y-6">
+                        <div class="bg-slate-800 p-5 rounded-xl border-l-4 border-emerald-400">
+                            <h4 class="font-bold text-emerald-400 text-lg mb-2">Variabel: Kotak Penyimpanan Data</h4>
+                            <p class="text-sm mb-3">Bayangkan variabel sebagai sebuah kotak. Kamu bisa memberi nama kotak itu (misal: "Nilai_A"). Lalu kamu bisa memasukkan angka ke dalamnya. Jika sewaktu-waktu kamu memasukkan angka baru, angka lama akan terhapus.</p>
                         </div>
-                        <h4 class="font-bold text-md mb-2 leading-tight">${m.title}</h4>
-                        <p class="text-xs text-slate-400 mt-auto pt-4 border-t border-slate-700/50"><i class="fa-solid fa-bullseye text-slate-500 mr-1"></i> Fokus: ${m.focus}</p>
-                    </div>
-                `;
-            }).join('');
-        }
-    </script>
-
-    <script>
-        // --- MEETING EXECUTION ENGINE ---
-        function getMeetingContent(id) {
-            // Jika Pertemuan 1, gunakan konten lengkap yang sudah kita buat
-            if (id === 1) return meeting1Content;
-            
-            // Jika Pertemuan 2-30, buat konten dinamis berdasarkan data pertemuan
-            const meeting = state.meetings[id - 1];
-            return [
-                { type: 'pemantik', title: `Misi ${id}: ${meeting.title}`, content: `Selamat datang di pertemuan ${id}! Pada misi kali ini, kita akan melangkah lebih jauh dan fokus mempelajari tentang **${meeting.focus}**.\n\nMari kita mulai petualangan baru ini!` },
-                { type: 'konsep', title: `Memahami Konsep Inti`, content: `Topik utama kita adalah **${meeting.title}**.\n\nDi sini kamu akan belajar konsep inti dari **${meeting.focus}**. Coba bayangkan bagaimana konsep ini bisa diterapkan untuk membuat program atau memecahkan masalah dalam kehidupan sehari-hari.` },
-                { type: 'latihan1', title: 'Latihan Cepat', content: `Berdasarkan fokus materi kita (${meeting.focus}), menurutmu apakah pemahaman konsep ini akan membantumu menulis program yang lebih baik?`, options: ['Sangat Membantu', 'Mungkin Membantu', 'Tidak Tahu', 'Kurang Relevan'], answer: 0 },
-                { type: 'refleksi', title: 'Refleksi Diri', content: `Tuliskan pemahaman sementaramu tentang ${meeting.title}. Bagian mana dari topik ini yang paling membuatmu penasaran?`, activity: 'textarea' },
-                { type: 'mastery', title: 'Mastery Check', content: `Buktikan pemahamanmu tentang ${meeting.focus} untuk menyelesaikan misi ini!`, activity: 'quiz-generic' }
-            ];
-        }
-
-        function startMeeting(id) {
-            state.currentMeetingId = id;
-            state.currentScreenIndex = 0;
-            state.mistakeCount = 0;
-            
-            if(state.meetings[id-1].status !== 'menguasai') {
-                state.meetings[id-1].status = 'sedang belajar';
-                saveState();
-            }
-
-            renderScreen();
-        }
-
-        function renderScreen() {
-            const meeting = state.meetings[state.currentMeetingId - 1];
-            // MENGGUNAKAN KONTEN DINAMIS SESUAI ID PERTEMUAN
-            const content = getMeetingContent(state.currentMeetingId); 
-            const screen = content[state.currentScreenIndex];
-            const container = document.getElementById('app-container');
-
-            let innerHTML = '';
-
-            // Header for meeting
-            innerHTML += `
-                <div class="mb-6 flex justify-between items-center fade-in">
-                    <div>
-                        <button onclick="renderDashboard()" class="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2 mb-2">
-                            <i class="fa-solid fa-arrow-left"></i> Kembali ke Peta
-                        </button>
-                        <h2 class="text-2xl font-bold text-sky-400">Pertemuan ${state.currentMeetingId}: <span class="text-white">${meeting.title}</span></h2>
-                    </div>
-                    <div class="text-right hidden sm:block">
-                        <span class="text-xs text-slate-400 block">Progress Sesi</span>
-                        <span class="font-bold">${state.currentScreenIndex + 1} / ${content.length}</span>
-                    </div>
-                </div>
-            `;
-
-            // Progress bar
-            const percent = ((state.currentScreenIndex + 1) / content.length) * 100;
-            innerHTML += `
-                <div class="w-full bg-slate-800 rounded-full h-1.5 mb-8 fade-in">
-                    <div class="bg-sky-500 h-1.5 rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(56,189,248,0.8)]" style="width: ${percent}%"></div>
-                </div>
-            `;
-
-            // Main Content Area - Fixed Layout Overlap by separating content and buttons properly
-            innerHTML += `<div class="glass rounded-2xl p-6 sm:p-10 mb-8 slide-in-right shadow-[0_8px_30px_rgb(0,0,0,0.5)] border-t border-slate-600/50">`;
-            
-            // Tag based on type
-            let tagColor = 'bg-slate-700 text-slate-300';
-            let tagIcon = 'fa-info-circle';
-            switch(screen.type) {
-                case 'pemantik': tagColor = 'bg-purple-900/50 text-purple-300 border-purple-500/50'; tagIcon = 'fa-lightbulb'; break;
-                case 'challenge': tagColor = 'bg-orange-900/50 text-orange-300 border-orange-500/50'; tagIcon = 'fa-gamepad'; break;
-                case 'konsep': tagColor = 'bg-blue-900/50 text-blue-300 border-blue-500/50'; tagIcon = 'fa-book'; break;
-                case 'contoh': tagColor = 'bg-teal-900/50 text-teal-300 border-teal-500/50'; tagIcon = 'fa-magnifying-glass'; break;
-                case 'simulasi': tagColor = 'bg-indigo-900/50 text-indigo-300 border-indigo-500/50'; tagIcon = 'fa-laptop-code'; break;
-                case 'latihan1': 
-                case 'latihan2': tagColor = 'bg-sky-900/50 text-sky-300 border-sky-500/50'; tagIcon = 'fa-dumbbell'; break;
-                case 'error_lab': tagColor = 'bg-red-900/50 text-red-300 border-red-500/50'; tagIcon = 'fa-bug'; break;
-                case 'refleksi': tagColor = 'bg-pink-900/50 text-pink-300 border-pink-500/50'; tagIcon = 'fa-brain'; break;
-                case 'mastery': tagColor = 'bg-green-900/50 text-green-300 border-green-500/50'; tagIcon = 'fa-star'; break;
-            }
-
-            innerHTML += `
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border ${tagColor} text-xs font-bold mb-6">
-                    <i class="fa-solid ${tagIcon}"></i> ${screen.type.toUpperCase().replace('_', ' ')}
-                </div>
-                <h3 class="text-3xl font-bold mb-6">${screen.title}</h3>
-            `;
-
-            // Render specific activity based on type/activity string
-            if(screen.activity === 'sort-mi') {
-                innerHTML += renderActivitySortMi(screen.content);
-            } else if (screen.activity === 'robot-maze') {
-                innerHTML += renderActivityRobotMaze(screen.content);
-            } else if (screen.type.startsWith('latihan')) {
-                innerHTML += renderActivityQuiz(screen);
-            } else if (screen.activity === 'debug-cuci') {
-                innerHTML += renderActivityDebugCuci(screen.content);
-            } else if (screen.activity === 'textarea') {
-                 innerHTML += renderActivityRefleksi(screen.content);
-            } else if (screen.activity === 'quiz-m1') {
-                 innerHTML += renderMasteryCheckM1(screen.content);
-            } else if (screen.activity === 'quiz-generic') {
-                 innerHTML += renderGenericMastery(screen.content);
-            } else {
-                const formattedContent = screen.content.replace(/\*\*(.*?)\*\*/g, '<strong class="text-sky-300 font-bold drop-shadow-md">$1</strong>').replace(/\n/g, '<br/>');
-                innerHTML += `<div class="text-lg text-slate-200 leading-relaxed max-w-3xl mb-8">${formattedContent}</div>`;
-                innerHTML += renderNavigationButtons(true); 
-            }
-
-            innerHTML += `</div>`;
-            container.innerHTML = innerHTML;
-
-            // Initialize drag and drop if needed
-            if(screen.activity === 'sort-mi') initSortMi();
-            if(screen.activity === 'robot-maze') initRobotMaze();
-        }
-
-        // Fixed layout overlap in Navigation Buttons by using mt-10 and removing absolute bottom positioning inside content
-        function renderNavigationButtons(canProceed, customAction = null) {
-            let html = `<div class="mt-10 pt-6 border-t border-slate-700/50 flex justify-end gap-3 sm:gap-4 w-full">`;
-            
-            if (state.currentScreenIndex > 0) {
-                html += `<button onclick="prevScreen()" class="px-5 py-2.5 rounded-xl bg-slate-700/80 hover:bg-slate-600 text-white font-medium transition-all shadow-md hover:shadow-lg flex items-center gap-2 border border-slate-600/50">
-                    <i class="fa-solid fa-chevron-left text-sm"></i> Kembali
-                </button>`;
-            }
-
-            if (customAction) {
-                 html += `<button onclick="${customAction}" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-bold transition-all shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] flex items-center gap-2 border border-sky-400/50">
-                    Cek Jawaban <i class="fa-solid fa-check text-sm"></i>
-                </button>`;
-            } else if (canProceed) {
-                const isLast = state.currentScreenIndex === meeting1Content.length - 1;
-                const btnText = isLast ? 'Selesaikan Misi' : 'Lanjut';
-                const icon = isLast ? 'fa-flag-checkered' : 'fa-chevron-right';
-                const bgClass = isLast ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 shadow-[0_0_15px_rgba(34,197,94,0.4)] hover:shadow-[0_0_25px_rgba(34,197,94,0.6)] border border-green-400/50' : 'bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] border border-sky-400/50';
-                
-                html += `<button onclick="nextScreen()" class="px-6 py-2.5 rounded-xl ${bgClass} text-white font-bold transition-all flex items-center gap-2">
-                    ${btnText} <i class="fa-solid ${icon} text-sm"></i>
-                </button>`;
-            }
-
-            html += `</div>`;
-            return html;
-        }
-
-        function nextScreen() {
-            const content = getMeetingContent(state.currentMeetingId);
-            if (state.currentScreenIndex < content.length - 1) {
-                state.currentScreenIndex++;
-                state.mistakeCount = 0; 
-                renderScreen();
-            } else {
-                finishMeeting();
-            }
-        }
-
-        function prevScreen() {
-            if (state.currentScreenIndex > 0) {
-                state.currentScreenIndex--;
-                state.mistakeCount = 0;
-                renderScreen();
-            }
-        }
-
-        function finishMeeting() {
-            const m = state.meetings[state.currentMeetingId - 1];
-            if(m.mastery >= 80) {
-                 m.status = 'menguasai';
-                 
-                 // Badge dinamis tergantung pertemuan
-                 let badgeName = 'Algorithm Explorer';
-                 let badgeIcon = 'fa-compass';
-                 if (state.currentMeetingId > 1) {
-                     badgeName = `Master of Misi ${state.currentMeetingId}`;
-                     badgeIcon = 'fa-star';
-                 }
-                 awardBadge(badgeName, `fa-solid ${badgeIcon}`);
-                 
-                 showModal('🎉 Luar Biasa!', `Kamu telah berhasil menyelesaikan Pertemuan ${state.currentMeetingId} dan menguasai konsep: ${m.focus}. Terus pertahankan!`, 'Kembali ke Dashboard', renderDashboard);
-            } else {
-                showModal('Belum Mencapai Mastery', 'Nilai mastery kamu di bawah 80%. Yuk, ulangi lagi dan perhatikan petunjuknya!', 'Ulangi Materi', () => {
-                    state.currentScreenIndex = 0;
-                    renderScreen();
-                });
-            }
-            saveState();
-        }
-    </script>
-
-    <script>
-        // --- ACTIVITY IMPLEMENTATIONS ---
-
-        function handleMistake(hint) {
-            showNotification(hint, 'warning');
-        }
-
-        // 1. Sort Mi Activity
-        function renderActivitySortMi(content) {
-            let html = `<p class="text-lg text-slate-200 mb-8">${content}</p>`;
-            
-            html += `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 relative z-10">
-                    <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 shadow-inner">
-                        <h4 class="font-bold text-center text-slate-400 mb-4 uppercase text-xs tracking-wider flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-layer-group"></i> Langkah Acak (Tarik)
-                        </h4>
-                        <div id="source-list" class="flex flex-col gap-3 min-h-[200px] dropzone">
-                            <div class="draggable p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-sky-400 cursor-grab active:cursor-grabbing transition-colors" draggable="true" data-id="3"><span class="w-6 h-6 inline-flex items-center justify-center bg-slate-800 rounded-full text-xs font-bold mr-2 text-slate-400">?</span>Masukkan mi ke dalam air mendidih</div>
-                            <div class="draggable p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-sky-400 cursor-grab active:cursor-grabbing transition-colors" draggable="true" data-id="5"><span class="w-6 h-6 inline-flex items-center justify-center bg-slate-800 rounded-full text-xs font-bold mr-2 text-slate-400">?</span>Tuangkan mi beserta kuahnya ke mangkok</div>
-                            <div class="draggable p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-sky-400 cursor-grab active:cursor-grabbing transition-colors" draggable="true" data-id="1"><span class="w-6 h-6 inline-flex items-center justify-center bg-slate-800 rounded-full text-xs font-bold mr-2 text-slate-400">?</span>Rebus air di panci</div>
-                            <div class="draggable p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-sky-400 cursor-grab active:cursor-grabbing transition-colors" draggable="true" data-id="4"><span class="w-6 h-6 inline-flex items-center justify-center bg-slate-800 rounded-full text-xs font-bold mr-2 text-slate-400">?</span>Siapkan bumbu di mangkok</div>
-                            <div class="draggable p-4 bg-slate-700/50 rounded-xl border border-slate-600 hover:border-sky-400 cursor-grab active:cursor-grabbing transition-colors" draggable="true" data-id="2"><span class="w-6 h-6 inline-flex items-center justify-center bg-slate-800 rounded-full text-xs font-bold mr-2 text-slate-400">?</span>Tunggu air mendidih</div>
-                        </div>
-                    </div>
-                    <div class="bg-sky-900/20 p-5 rounded-2xl border border-sky-800/50 shadow-inner">
-                        <h4 class="font-bold text-center text-sky-400 mb-4 uppercase text-xs tracking-wider flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-list-check"></i> Urutan Benar (Lepas)
-                        </h4>
-                        <div id="target-list" class="flex flex-col gap-3 min-h-[200px] dropzone p-3 border-2 border-dashed border-sky-700/50 rounded-xl bg-sky-950/30">
-                        </div>
-                    </div>
-                </div>
-            `;
-            html += renderNavigationButtons(false, 'checkSortMi()');
-            return html;
-        }
-
-        let draggedItem = null;
-        function initSortMi() {
-            const draggables = document.querySelectorAll('.draggable');
-            const dropzones = document.querySelectorAll('.dropzone');
-
-            draggables.forEach(draggable => {
-                draggable.addEventListener('dragstart', () => {
-                    draggedItem = draggable;
-                    setTimeout(() => draggable.classList.add('opacity-50'), 0);
-                });
-                draggable.addEventListener('dragend', () => {
-                    draggedItem = null;
-                    draggable.classList.remove('opacity-50');
-                    dropzones.forEach(dz => dz.classList.remove('dragover'));
-                });
-            });
-
-            dropzones.forEach(dropzone => {
-                dropzone.addEventListener('dragover', e => {
-                    e.preventDefault();
-                    dropzone.classList.add('dragover');
-                });
-                dropzone.addEventListener('dragleave', () => {
-                    dropzone.classList.remove('dragover');
-                });
-                dropzone.addEventListener('drop', e => {
-                    e.preventDefault();
-                    dropzone.classList.remove('dragover');
-                    if (draggedItem) {
-                        dropzone.appendChild(draggedItem);
-                    }
-                });
-            });
-        }
-
-        function checkSortMi() {
-            const targetList = document.getElementById('target-list');
-            const items = targetList.querySelectorAll('.draggable');
-            
-            if(items.length < 5) {
-                handleMistake("Pindahkan semua langkah ke kotak 'Urutan Benar' terlebih dahulu.");
-                return;
-            }
-
-            let isCorrect = true;
-            let currentId = 0;
-            items.forEach(item => {
-                const id = parseInt(item.getAttribute('data-id'));
-                if (id !== currentId + 1) {
-                    isCorrect = false;
-                }
-                currentId = id;
-            });
-
-            if(isCorrect) {
-                addXP(20);
-                showModal('Tepat Sekali!', 'Kamu berhasil menyusun algoritma membuat mi instan. Komputer juga butuh urutan yang jelas seperti ini.', 'Lanjut', nextScreen);
-            } else {
-                state.mistakeCount++;
-                let hint = "Belum tepat. Coba perhatikan urutan langkahnya.";
-                if(state.mistakeCount === 2) hint = "Petunjuk: Apakah kamu memasukkan mi sebelum air direbus atau mendidih?";
-                if(state.mistakeCount >= 3) hint = "Petunjuk Visual: Rebus Air -> Tunggu Mendidih -> Masukkan Mi -> Siapkan Bumbu -> Tuang.";
-                handleMistake(hint);
-            }
-        }
-
-        // 2. Simple Quiz Activity
-        function renderActivityQuiz(screen) {
-            let html = `<p class="text-lg text-slate-200 mb-8">${screen.content}</p>`;
-            html += `<div class="grid grid-cols-1 gap-4 mb-8" id="quiz-options">`;
-            
-            screen.options.forEach((opt, idx) => {
-                html += `
-                    <button onclick="selectQuizOption(${idx})" id="opt-${idx}" class="quiz-btn flex items-center gap-4 text-left p-5 rounded-2xl bg-slate-800/80 border-2 border-slate-700 hover:border-sky-500 hover:bg-slate-700/80 hover:-translate-y-1 transition-all duration-200 font-medium group">
-                        <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 font-bold group-hover:bg-sky-500 group-hover:text-white transition-colors">
-                            ${String.fromCharCode(65 + idx)}
-                        </div>
-                        <span class="flex-1">${opt}</span>
-                    </button>
-                `;
-            });
-            html += `</div>`;
-            
-            html += `<div id="quiz-data" data-answer="${screen.answer}" class="hidden"></div>`;
-            html += renderNavigationButtons(false, 'checkQuiz()');
-            return html;
-        }
-
-        let selectedOption = null;
-        function selectQuizOption(idx) {
-            selectedOption = idx;
-            document.querySelectorAll('.quiz-btn').forEach(btn => {
-                btn.classList.remove('border-sky-500', 'bg-sky-900/40', 'text-sky-100', 'ring-2', 'ring-sky-500/50');
-                btn.classList.add('border-slate-700', 'bg-slate-800/80', 'text-slate-200');
-                btn.querySelector('div').classList.remove('bg-sky-500', 'text-white');
-                btn.querySelector('div').classList.add('bg-slate-700', 'text-slate-300');
-            });
-            const btn = document.getElementById(`opt-${idx}`);
-            btn.classList.remove('border-slate-700', 'bg-slate-800/80', 'text-slate-200');
-            btn.classList.add('border-sky-500', 'bg-sky-900/40', 'text-sky-100', 'ring-2', 'ring-sky-500/50');
-            btn.querySelector('div').classList.remove('bg-slate-700', 'text-slate-300');
-            btn.querySelector('div').classList.add('bg-sky-500', 'text-white');
-        }
-
-        function checkQuiz() {
-            if (selectedOption === null) {
-                showNotification('Pilih satu jawaban dulu.', 'error');
-                return;
-            }
-            
-            const correctAnswer = parseInt(document.getElementById('quiz-data').getAttribute('data-answer'));
-            
-            if (selectedOption === correctAnswer) {
-                addXP(15);
-                selectedOption = null; // reset for next
-                showModal('Benar!', 'Pemahamanmu tentang konsep ini sudah mantap. Jelaskan dengan bahasamu sendiri mengapa ini benar dalam hati.', 'Lanjut', nextScreen);
-            } else {
-                 state.mistakeCount++;
-                 let hint = "Coba pikirkan lagi definisinya.";
-                 if(state.mistakeCount > 1) hint = "Petunjuk: Algoritma lebih mementingkan URUTAN yang LOGIS.";
-                 handleMistake(hint);
-            }
-        }
-
-        // 3. Debugging Activity
-        function renderActivityDebugCuci(content) {
-            let html = `<p class="text-lg text-slate-200 mb-6 text-red-300 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Ada bug di algoritma ini! Bisakah kamu memperbaikinya?</p>`;
-            
-            const lines = [
-                "1. Masukkan sabun",
-                "2. Jemur pakaian",
-                "3. Masukkan pakaian ke mesin cuci",
-                "4. Nyalakan mesin cuci"
-            ];
-
-            html += `
-                <div class="bg-[#1e1e1e] p-6 rounded-2xl font-mono text-sm border-2 border-slate-700 mb-8 shadow-2xl relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-12 h-full bg-slate-800/50 border-r border-slate-700 flex flex-col items-center py-6 text-slate-500 select-none">
-                        <span class="mb-4">1</span><span class="mb-4">2</span><span class="mb-4">3</span><span class="mb-4">4</span>
-                    </div>
-                    <div class="pl-12" id="debug-lines">
-            `;
-
-            lines.forEach((line, idx) => {
-                html += `
-                    <div class="flex items-center gap-4 mb-4 group hover:bg-white/5 p-1 rounded transition-colors">
-                        <select class="debug-select bg-slate-800 text-sky-300 border border-slate-600 rounded-md px-3 py-1.5 outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 cursor-pointer">
-                            <option value="" disabled selected>Pilih Urutan</option>
-                            <option value="1">Langkah 1</option>
-                            <option value="2">Langkah 2</option>
-                            <option value="3">Langkah 3</option>
-                            <option value="4">Langkah 4</option>
-                        </select>
-                        <span class="text-slate-300 text-base">${line.substring(2)}</span>
-                    </div>
-                `;
-            });
-
-            html += `</div></div>`;
-            html += renderNavigationButtons(false, 'checkDebug()');
-            return html;
-        }
-
-        function checkDebug() {
-            const selects = document.querySelectorAll('.debug-select');
-            const values = Array.from(selects).map(s => s.value);
-            
-            if(values.includes("")) {
-                handleMistake("Pilih urutan untuk semua langkah.");
-                return;
-            }
-
-            const expected = ["2", "4", "1", "3"];
-            let isCorrect = true;
-            for(let i=0; i<expected.length; i++) {
-                if(values[i] !== expected[i]) isCorrect = false;
-            }
-
-            if (isCorrect) {
-                addXP(30);
-                awardBadge('Debugging Specialist', 'fa-solid fa-bug-slash');
-                showModal('Bug Fixed! 🟢', 'Hebat! Kamu menemukan kesalahan logika urutannya. Pakaian yang kotor tak akan bersih jika dijemur sebelum dicuci.', 'Lanjut', nextScreen);
-            } else {
-                 state.mistakeCount++;
-                 let hint = "🔴 Masih ada bug. Coba jalankan algoritma bayangan di kepalamu.";
-                 if(state.mistakeCount > 1) hint = "🟡 Hipotesis: Apakah mungkin menjemur pakaian sebelum mesin cuci dinyalakan?";
-                 if(state.mistakeCount > 2) hint = "🔵 Petunjuk: 1. Masukkan Pakaian, 2. Sabun, 3. Nyalakan, 4. Jemur.";
-                 handleMistake(hint);
-            }
-        }
-
-        // 4. Refleksi Activity
-        function renderActivityRefleksi(content) {
-            let html = `<p class="text-lg text-slate-200 mb-6">${content}</p>`;
-            html += `
-                <div class="relative mb-8 group">
-                    <div class="absolute -inset-0.5 bg-gradient-to-r from-sky-500 to-purple-500 rounded-xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                    <textarea id="refleksi-text" class="relative w-full bg-slate-900 border-2 border-slate-700/50 rounded-xl p-6 text-slate-200 focus:border-sky-500 focus:ring-0 outline-none transition-colors min-h-[200px] resize-y" placeholder="Ketik hasil refleksimu secara jujur di sini..."></textarea>
-                </div>
-            `;
-            html += renderNavigationButtons(false, 'saveRefleksi()');
-            return html;
-        }
-
-        function saveRefleksi() {
-            const text = document.getElementById('refleksi-text').value;
-            if(text.length < 10) {
-                showNotification('Tulis refleksimu sedikit lebih panjang ya.', 'warning');
-                return;
-            }
-            addXP(10);
-            showModal('Tersimpan', 'Terima kasih atas refleksimu. Mengerti dimana kebingunganmu adalah langkah awal untuk menguasainya.', 'Lanjut', nextScreen);
-        }
-
-        // 5. Robot Maze Simulation
-        function renderActivityRobotMaze(content) {
-             let html = `<p class="text-lg text-slate-200 mb-6">${content}</p>`;
-             html += `
-                <div class="flex flex-col lg:flex-row gap-8 mb-8">
-                    <!-- The Grid -->
-                    <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 inline-block shadow-inner mx-auto lg:mx-0 shrink-0">
-                        <div class="grid grid-cols-4 gap-1.5 w-64 h-64 sm:w-72 sm:h-72 mx-auto bg-slate-900 p-2 rounded-xl relative">
-                            <!-- Robot -->
-                            <div id="sim-robot" class="absolute w-[16%] h-[16%] bg-sky-400 rounded-lg top-[4%] left-[4%] z-10 transition-all duration-500 flex items-center justify-center shadow-lg shadow-sky-500/50 border-2 border-sky-300">
-                                <i class="fa-solid fa-robot text-white text-lg"></i>
-                            </div>
-                            
-                            <!-- Cells (0,0 to 3,3) -->
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-red-500/20 border-2 border-red-500/50 rounded-md flex items-center justify-center overflow-hidden relative">
-                                <i class="fa-solid fa-fire text-red-500 text-2xl absolute animate-pulse"></i>
-                            </div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-red-500/20 border-2 border-red-500/50 rounded-md flex items-center justify-center overflow-hidden relative">
-                                <i class="fa-solid fa-fire text-red-500 text-2xl absolute animate-pulse" style="animation-delay: 0.2s"></i>
-                            </div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-red-500/20 border-2 border-red-500/50 rounded-md flex items-center justify-center overflow-hidden relative">
-                                <i class="fa-solid fa-fire text-red-500 text-2xl absolute animate-pulse" style="animation-delay: 0.4s"></i>
-                            </div>
-                            
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-slate-700/50 rounded-md border border-slate-600/50"></div>
-                            <div class="bg-green-500/20 border-2 border-green-500/50 rounded-md flex items-center justify-center relative overflow-hidden">
-                                <div class="absolute inset-0 bg-green-400/20 animate-ping"></div>
-                                <i class="fa-solid fa-flag-checkered text-green-400 text-2xl z-10"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Controls -->
-                    <div class="flex-1 flex flex-col">
-                        <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 flex-1 flex flex-col">
-                            <div class="flex justify-between items-center mb-4">
-                                <h4 class="font-bold text-sky-400 flex items-center gap-2"><i class="fa-solid fa-list-ol"></i> Urutan Perintah:</h4>
-                                <span class="text-xs text-slate-400 bg-slate-900 px-2 py-1 rounded-md" id="cmd-count">0 / 8 Maks</span>
-                            </div>
-                            <div id="sim-commands" class="flex flex-wrap content-start gap-2 mb-6 min-h-[60px] p-4 bg-slate-900 rounded-xl border border-slate-700 shadow-inner flex-1">
-                                <span class="text-slate-600 text-sm italic w-full text-center mt-2" id="cmd-placeholder">Tekan tombol panah di bawah untuk menambah perintah</span>
-                            </div>
-                            
-                            <div class="flex gap-3 mb-6">
-                                <button onclick="addCommand('right')" class="flex-1 h-14 bg-slate-700 hover:bg-sky-600 hover:text-white text-sky-400 border border-slate-600 rounded-xl flex items-center justify-center transition-all duration-200 active:scale-95 shadow-md"><i class="fa-solid fa-arrow-right text-xl"></i></button>
-                                <button onclick="addCommand('down')" class="flex-1 h-14 bg-slate-700 hover:bg-sky-600 hover:text-white text-sky-400 border border-slate-600 rounded-xl flex items-center justify-center transition-all duration-200 active:scale-95 shadow-md"><i class="fa-solid fa-arrow-down text-xl"></i></button>
-                                <button onclick="clearCommands()" class="flex-1 h-14 bg-red-900/30 hover:bg-red-600 text-red-400 hover:text-white border border-red-800/50 rounded-xl flex items-center justify-center transition-all duration-200 active:scale-95 shadow-md" title="Hapus Semua Perintah"><i class="fa-solid fa-trash-can text-xl"></i></button>
-                            </div>
-                            
-                            <button onclick="runSimulation()" class="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 rounded-xl font-bold text-white transition-all shadow-lg shadow-green-600/30 flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fa-solid fa-play"></i> Jalankan Robot
-                            </button>
-                        </div>
-                    </div>
-                </div>
-             `;
-             html += renderNavigationButtons(true);
-             return html;
-        }
-
-        let simCommands = [];
-        function addCommand(dir) {
-            if(simCommands.length >= 8) {
-                showNotification('Batas maksimal 8 perintah tercapai.', 'warning');
-                return;
-            }
-            simCommands.push(dir);
-            updateCommandsUI();
-        }
-
-        function clearCommands() {
-            simCommands = [];
-            updateCommandsUI();
-            resetRobot();
-        }
-
-        function updateCommandsUI() {
-            const container = document.getElementById('sim-commands');
-            const placeholder = document.getElementById('cmd-placeholder');
-            const countLabel = document.getElementById('cmd-count');
-            
-            if(countLabel) countLabel.innerText = `${simCommands.length} / 8 Maks`;
-            
-            if (simCommands.length > 0) {
-                if(placeholder) placeholder.style.display = 'none';
-                container.innerHTML = simCommands.map((cmd, index) => {
-                    const icon = cmd === 'right' ? 'fa-arrow-right' : 'fa-arrow-down';
-                    return `<div class="w-10 h-10 bg-sky-900/50 border-2 border-sky-500/50 rounded-lg flex items-center justify-center text-sky-400 shadow-sm transition-all" style="animation: fadeIn 0.2s ease-out forwards; opacity:0; animation-delay: ${index * 0.05}s"><i class="fa-solid ${icon}"></i></div>`;
-                }).join('');
-            } else {
-                 container.innerHTML = `<span class="text-slate-600 text-sm italic w-full text-center mt-2" id="cmd-placeholder">Tekan tombol panah di bawah untuk menambah perintah</span>`;
-            }
-        }
-
-        function initRobotMaze() {
-            clearCommands();
-            resetRobot();
-        }
-
-        function resetRobot() {
-            const robot = document.getElementById('sim-robot');
-            if(robot) {
-                robot.style.top = '4%';
-                robot.style.left = '4%';
-                robot.dataset.x = 0;
-                robot.dataset.y = 0;
-            }
-        }
-
-        function runSimulation() {
-            const robot = document.getElementById('sim-robot');
-            if(!robot || simCommands.length === 0) return;
-            
-            let x = parseInt(robot.dataset.x || 0);
-            let y = parseInt(robot.dataset.y || 0);
-            let i = 0;
-            
-            const grid = [
-                [0, 0, 1, 0],
-                [0, 1, 0, 0],
-                [0, 0, 0, 1],
-                [0, 0, 0, 2]
-            ];
-            
-            robot.style.transition = 'all 0.5s ease';
-            
-            const interval = setInterval(() => {
-                if(i >= simCommands.length) {
-                    clearInterval(interval);
-                    setTimeout(() => checkSimulation(x, y, grid), 500);
-                    return;
-                }
-                
-                const cmd = simCommands[i];
-                if(cmd === 'right' && x < 3) x++;
-                if(cmd === 'down' && y < 3) y++;
-                
-                robot.style.left = (4 + x * 25) + '%';
-                robot.style.top = (4 + y * 25) + '%';
-                robot.dataset.x = x;
-                robot.dataset.y = y;
-                
-                i++;
-            }, 600);
-        }
-        
-        function checkSimulation(x, y, grid) {
-            if(grid[y][x] === 1) {
-                showNotification('Robot terbakar! Coba jalur lain.', 'error');
-                setTimeout(resetRobot, 1000);
-            } else if (grid[y][x] === 2) {
-                addXP(40);
-                showModal('Berhasil!', 'Robot sampai di tujuan! Kamu telah menyusun algoritma (urutan perintah) yang tepat.', 'Lanjut', nextScreen);
-            } else {
-                showNotification('Robot belum mencapai tujuan.', 'warning');
-                setTimeout(resetRobot, 1000);
-            }
-        }
-
-        // 6. Mastery Check
-        function renderMasteryCheckM1(content) {
-             let html = `<p class="text-lg text-slate-300 mb-8">${content}</p>`;
-             
-             const questions = [
-                 { q: "Apa ciri utama dari sebuah algoritma yang baik?", opts: ["Menggunakan bahasa Inggris", "Langkah-langkahnya logis dan tidak ambigu (jelas)", "Dibuat oleh programmer ahli", "Sangat panjang dan rumit"], a: 1 },
-                 { q: "Jika sebuah program error karena urutan perhitungannya terbalik, ini disebut masalah pada...", opts: ["Perangkat keras (Hardware)", "Sistem Operasi", "Algoritma (Logika urutan)", "Koneksi internet"], a: 2 },
-                 { q: "Mengapa komputer membutuhkan algoritma?", opts: ["Karena komputer pintar", "Karena komputer hanya bisa menjalankan instruksi spesifik secara berurutan", "Agar komputer tidak rusak", "Untuk mempercantik tampilan layar"], a: 1 }
-             ];
-
-             html += `<div id="mastery-quiz-container" class="space-y-6 mb-8">`;
-             questions.forEach((item, qIdx) => {
-                 html += `
-                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 mastery-q transition-colors hover:border-slate-600" data-correct="${item.a}">
+                        <p class="text-sm text-slate-300">Dalam literasi numerik, kita sering ditugaskan menghitung sesuatu. Mari kita simulasikan I-P-O untuk menghitung rata-rata dua ujian!</p>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-brand-accent shadow-lg">
+                        <h3 class="font-bold text-brand-accent mb-4 text-xl"><i class="fa-solid fa-calculator mr-2"></i>Simulator I-P-O: Menghitung Rata-Rata</h3>
                         <div class="flex gap-4 mb-4">
-                            <div class="w-8 h-8 shrink-0 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-sm">${qIdx + 1}</div>
-                            <p class="font-bold text-slate-200 mt-1">${item.q}</p>
-                        </div>
-                        <div class="space-y-3 pl-12">
-                 `;
-                 item.opts.forEach((opt, oIdx) => {
-                     html += `
-                        <label class="flex items-start gap-3 p-4 rounded-xl border border-slate-700/50 bg-slate-900/50 hover:bg-slate-800 hover:border-sky-500/50 cursor-pointer transition-all group">
-                            <div class="pt-0.5">
-                                <input type="radio" name="q${qIdx}" value="${oIdx}" class="w-4 h-4 text-sky-500 bg-slate-900 border-slate-600 focus:ring-sky-500 focus:ring-offset-slate-900 cursor-pointer">
+                            <div class="w-1/2">
+                                <label class="text-xs font-bold text-slate-400">Kotak (Variabel) NILAI_A</label>
+                                <input type="number" id="sim3-a" class="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white mt-1" placeholder="Misal: 80">
                             </div>
-                            <span class="text-sm text-slate-300 group-hover:text-slate-200 leading-tight">${opt}</span>
-                        </label>
-                     `;
-                 });
-                 html += `</div></div>`;
-             });
-             html += `</div>`;
+                            <div class="w-1/2">
+                                <label class="text-xs font-bold text-slate-400">Kotak (Variabel) NILAI_B</label>
+                                <input type="number" id="sim3-b" class="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white mt-1" placeholder="Misal: 90">
+                            </div>
+                        </div>
+                        <button onclick="runSimIO()" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-black py-3 rounded-xl mb-4">Jalankan Proses Hitung</button>
+                        <div class="bg-black p-4 rounded-xl border border-slate-700">
+                            <div id="sim3-out" class="font-mono text-emerald-400 text-sm h-32 overflow-y-auto">> Menunggu input...</div>
+                        </div>
+                    </div>`
+            },
+            4: {
+                ap: "Komputer juga bisa disuruh mengambil keputusan! Misalnya, pada sistem e-rapor, jika nilai di atas 75 maka 'Tuntas', jika di bawah 75 maka 'Remedial'. Ini menggunakan Percabangan (If-Else).",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Percabangan memungkinkan komputer memilih tindakan berdasarkan suatu kondisi. Kondisi dinilai menggunakan operator relasional seperti lebih besar (>), lebih kecil (<), atau sama dengan (=).</p>
+                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-700">
+                            <h4 class="font-bold text-white mb-2">Logika di Scratch</h4>
+                            <p class="text-sm text-slate-300 mb-2">Di Scratch, percabangan diwakili oleh blok <span class="bg-yellow-600/30 text-yellow-400 px-2 rounded">if &lt;kondisi&gt; then</span> dan <span class="bg-yellow-600/30 text-yellow-400 px-2 rounded">else</span>.</p>
+                        </div>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-brand-purple shadow-lg">
+                        <h3 class="font-bold text-brand-purple mb-4 text-xl"><i class="fa-solid fa-code-branch mr-2"></i>Simulator Logika KKM</h3>
+                        <div class="flex gap-4 mb-4">
+                            <div class="w-1/2">
+                                <label class="text-xs font-bold text-slate-400">Nilai Kamu</label>
+                                <input type="number" id="sim4-val" class="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white mt-1">
+                            </div>
+                            <div class="w-1/2">
+                                <label class="text-xs font-bold text-slate-400">Batas KKM</label>
+                                <input type="number" id="sim4-kkm" value="75" class="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white mt-1">
+                            </div>
+                        </div>
+                        <button onclick="runSimBranch()" class="w-full bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black py-3 rounded-xl mb-4">Cek Kondisi (IF Nilai >= KKM)</button>
+                        <div class="bg-black p-4 rounded-xl border border-slate-700">
+                            <div id="sim4-out" class="font-mono text-emerald-400 text-sm">> Menunggu...</div>
+                        </div>
+                    </div>`
+            },
+            5: {
+                ap: "Komputer tidak pernah merasa lelah. Manusia akan bosan jika disuruh menyalin kalimat 'Saya janji tidak nakal' 100 kali, tetapi komputer bisa melakukannya dalam sekejap menggunakan blok Perulangan (Looping).",
+                mat: `
+                    <div class="space-y-6">
+                        <div class="bg-slate-800 p-5 rounded-xl border-t-4 border-rose-400 shadow-md">
+                            <h4 class="font-bold text-rose-400 text-lg mb-2">Jenis-Jenis Blok Perulangan</h4>
+                            <ul class="list-disc pl-5 space-y-2 text-sm text-slate-300">
+                                <li><b>Repeat (Counted Loop):</b> Mengulang instruksi dengan jumlah yang sudah pasti. Misalnya mengulang 10 kali.</li>
+                                <li><b>Repeat Until (Conditional Loop):</b> Mengulang terus-menerus SAMPAI sebuah syarat terpenuhi. Misalnya, terus berjalan sampai menyentuh dinding.</li>
+                                <li><b>Forever:</b> Mengulang selamanya tanpa henti (sering dipakai untuk animasi background game).</li>
+                            </ul>
+                        </div>
+                    </div>`,
+                sim: ""
+            },
+            6: {
+                ap: "Bayangkan kamu sering diminta ibumu membeli gula ke warung. Daripada ibu selalu menyebutkan instruksi panjang ('ambil uang, pergi ke warung A, minta gula, bayar, kembali'), ibu cukup bilang 'Beli Gula!'. Ini adalah konsep Modularisasi.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Saat program semakin besar, kode akan menjadi sangat panjang dan pusing untuk dibaca. Programmer memecahnya menjadi modul-modul kecil. Di Scratch, fitur ini bernama <b>Make a Block (Membuat Blok Kustom)</b>.</p>
+                        <div class="bg-slate-900 p-5 rounded-xl border border-slate-700">
+                            <h4 class="font-bold text-white mb-2">Fungsi vs Prosedur</h4>
+                            <p class="text-sm text-slate-300 mb-2"><b>Fungsi:</b> Melakukan tugas dan MENGEMBALIKAN hasil. (Contoh: Menghitung 2+3, lalu menjawab 5).</p>
+                            <p class="text-sm text-slate-300"><b>Prosedur:</b> Hanya melakukan tugas, TANPA mengembalikan jawaban angka. (Contoh: Menggerakkan robot maju 10 langkah).</p>
+                        </div>
+                    </div>`,
+                sim: ""
+            },
+            7: {
+                ap: "Sebuah modul akan jauh lebih cerdas jika bisa menerima 'pesanan' (Input). Misalnya blok 'Beli Gula', bisa kita buat menjadi 'Beli (Barang)'. (Barang) ini disebut Parameter.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Parameter adalah nilai yang kita masukkan ke dalam fungsi saat kita memanggilnya. Dalam matematika, ini sama seperti f(x) = ax + b, di mana 'x' adalah parameternya.</p>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-emerald-400 shadow-lg">
+                        <h3 class="font-bold text-emerald-400 mb-4 text-xl"><i class="fa-solid fa-code mr-2"></i>Simulator Modul (Parameter f(x))</h3>
+                        <p class="text-sm text-slate-300 mb-4">Mari buat fungsi untuk menyelesaikan: k1(x) - k2 = k3</p>
+                        <div class="grid grid-cols-3 gap-3 mb-4">
+                            <div><label class="text-xs font-bold text-slate-400">k1</label><input type="number" id="s7-k1" value="4" class="w-full bg-slate-800 p-2 text-white rounded"></div>
+                            <div><label class="text-xs font-bold text-slate-400">k2</label><input type="number" id="s7-k2" value="5" class="w-full bg-slate-800 p-2 text-white rounded"></div>
+                            <div><label class="text-xs font-bold text-slate-400">k3</label><input type="number" id="s7-k3" value="15" class="w-full bg-slate-800 p-2 text-white rounded"></div>
+                        </div>
+                        <button onclick="runSimPersamaan()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl mb-4">Panggil Fungsi hitungLinear()</button>
+                        <div class="bg-black p-5 rounded-xl border border-slate-700 flex justify-between items-center">
+                            <span class="text-slate-400 text-sm">Nilai x adalah :</span>
+                            <span id="s7-out" class="text-3xl font-black text-white">-</span>
+                        </div>
+                    </div>`
+            },
+            8: {
+                ap: "Jika fungsi adalah buku resep, maka Library (Pustaka) adalah lemari bukunya. Programmer sering mengumpulkan modul-modul yang mirip ke dalam satu Pustaka agar mudah dipakai di proyek lain.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Misalnya, kita membuat 'Pustaka Bangun Datar' yang berisi fungsi luasPersegi(s), luasSegitiga(a, t), dan luasLingkaran(r). Kita bisa memanggilnya kapan saja kita butuh tanpa harus mengetik ulang rumusnya.</p>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-indigo-400 shadow-lg">
+                        <h3 class="font-bold text-indigo-400 mb-4 text-xl"><i class="fa-solid fa-shapes mr-2"></i>Simulator Library Luas</h3>
+                        <div class="flex gap-2 mb-4">
+                            <button onclick="switchLibTab('persegi')" id="tab-persegi" class="px-3 py-1 bg-indigo-500 text-white rounded">Persegi</button>
+                            <button onclick="switchLibTab('segitiga')" id="tab-segitiga" class="px-3 py-1 bg-slate-700 text-white rounded">Segitiga</button>
+                        </div>
+                        <div id="content-persegi" class="lib-content space-y-4">
+                            <div><label class="text-xs text-slate-400">Sisi (s)</label><input type="number" id="lib-s" value="5" class="w-full bg-slate-900 p-2 text-white rounded"></div>
+                            <button onclick="runSimLib('persegi')" class="w-full bg-indigo-600 py-2 rounded font-bold text-white">Hitung Luas</button>
+                        </div>
+                        <div id="content-segitiga" class="lib-content hidden space-y-4">
+                            <div class="flex gap-2">
+                                <div class="w-1/2"><label class="text-xs text-slate-400">Alas</label><input type="number" id="lib-a" value="10" class="w-full bg-slate-900 p-2 text-white rounded"></div>
+                                <div class="w-1/2"><label class="text-xs text-slate-400">Tinggi</label><input type="number" id="lib-t" value="6" class="w-full bg-slate-900 p-2 text-white rounded"></div>
+                            </div>
+                            <button onclick="runSimLib('segitiga')" class="w-full bg-indigo-600 py-2 rounded font-bold text-white">Hitung Luas</button>
+                        </div>
+                        <div class="bg-black p-4 rounded-xl mt-4 text-center">
+                            <span class="text-slate-500 text-xs">Hasil:</span> <span id="lib-out" class="text-2xl font-black text-emerald-400">-</span>
+                        </div>
+                    </div>`
+            },
+            9: {
+                ap: "Apakah belajar algoritma harus selalu memakai komputer? Tidak! Kita bisa melatih logika kita secara 'Unplugged' (tanpa komputer). Salah satu contohnya adalah mencari pola merangkai gelang warna-warni.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Dengan permainan fisik seperti merangkai manik-manik merah-kuning-hijau, kita melatih otak kita mengenali "pola perulangan". Jika kita harus membuat gelang dengan 30 manik-manik, alih-alih menyebutkan warnanya satu per satu, kita bisa mendefinisikan modul [Pola 1: Merah-Kuning-Hijau] dan mengulanginya 10 kali.</p>
+                    </div>`,
+                sim: ""
+            },
+            10: {
+                ap: "Dalam mata pelajaran IPA, kita sering mengamati pertumbuhan makhluk hidup. Bagaimana komputer bisa membantu kita memprediksi pertumbuhan bakteri? Kita gunakan Literasi Sains!",
+                mat: `
+                    <div class="space-y-6">
+                        <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
+                            <h4 class="font-bold text-white mb-2">Kasus 3 Hari</h4>
+                            <p class="text-sm text-slate-300">Misal kita punya 10 bakteri. Tiap hari jumlahnya membelah menjadi 2x lipat. Kita bisa menggunakan variabel dan blok dasar untuk menghitungnya secara manual (Hari 1: 20, Hari 2: 40, Hari 3: 80). Ini memodelkan alam ke dalam komputer!</p>
+                        </div>
+                    </div>`,
+                sim: ""
+            },
+            11: {
+                ap: "Menghitung bakteri selama 3 hari memang mudah dikerjakan satu per satu. Tapi bagaimana jika kita ingin memprediksi populasinya setelah 30 hari? Menulis kode satu per satu akan sangat panjang. Di sinilah Loop (Perulangan) sangat berguna!",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Kita bisa memasukkan proses perkalian bakteri ke dalam blok <b>Repeat N times</b>.</p>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-rose-400 shadow-lg">
+                        <h3 class="font-bold text-rose-400 mb-4 text-xl"><i class="fa-solid fa-bacterium mr-2"></i>Simulator Literasi Sains (Loop N Hari)</h3>
+                        <div class="grid grid-cols-3 gap-3 mb-4">
+                            <div><label class="text-xs text-slate-400">Populasi Awal</label><input type="number" id="s11-awal" value="10" class="w-full bg-slate-900 p-2 text-white rounded"></div>
+                            <div><label class="text-xs text-slate-400">Faktor</label><input type="number" id="s11-faktor" value="2" class="w-full bg-slate-900 p-2 text-white rounded"></div>
+                            <div><label class="text-xs text-slate-400">Hari (N)</label><input type="number" id="s11-n" value="5" class="w-full bg-slate-900 p-2 text-white rounded"></div>
+                        </div>
+                        <button onclick="runSimLoopN()" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-xl mb-4">Mulai Simulasi Loop</button>
+                        <div class="bg-black p-4 rounded-xl h-40 overflow-y-auto">
+                            <div id="s11-out" class="font-mono text-emerald-400 text-sm">> Menunggu...</div>
+                        </div>
+                    </div>`
+            },
+            12: {
+                ap: "Terkadang kita tidak tahu persis berapa hari (N) yang dibutuhkan bakteri untuk mencapai jumlah tertentu. Kita hanya tahu targetnya, misal: 'Kapan bakteri mencapai 1000?'.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Untuk kasus ini, perulangan <b>Repeat N times</b> tidak cocok. Kita harus menggunakan blok <b>Repeat Until (Kondisi Berhenti)</b>. Komputer akan terus mengalikan bakteri SAMPAI populasinya melebihi 1000, lalu komputer akan melaporkan di hari ke berapa loop itu berhenti.</p>
+                    </div>`,
+                sim: ""
+            },
+            13: {
+                ap: "Angka 10 yang kita kenal sehari-hari disebut sistem Desimal (Basis 10, karena manusia punya 10 jari). Tapi mesin dan komputer elektronik tidak punya jari! Mereka hanya punya saklar listrik (Hidup/Mati).",
+                mat: `
+                    <div class="space-y-6">
+                        <div class="bg-slate-800 p-5 rounded-xl">
+                            <h4 class="font-bold text-yellow-400 mb-2">Basis Bilangan</h4>
+                            <ul class="list-disc pl-5 space-y-2 text-sm text-slate-300">
+                                <li><b>Biner (Basis 2):</b> Hanya menggunakan angka 0 dan 1. Digunakan oleh mesin komputer (prosesor).</li>
+                                <li><b>Oktal (Basis 8):</b> Menggunakan angka 0 sampai 7. Kadang dipakai untuk meringkas biner yang terlalu panjang.</li>
+                            </ul>
+                        </div>
+                    </div>`,
+                sim: ""
+            },
+            14: {
+                ap: "Bagaimana cara menerjemahkan angka manusia (desimal) menjadi angka mesin (biner)? Kita memerlukan Algoritma Pembagian Berulang atau Modulo (sisa hasil bagi).",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Cara kerjanya: Angka dibagi 2. Jika ada sisa, catat '1'. Jika habis dibagi, catat '0'. Ulangi terus dengan hasil baginya sampai bernilai 0. Terakhir, baca sisanya dari bawah ke atas.</p>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-yellow-500 shadow-lg">
+                        <h3 class="font-bold text-yellow-400 mb-4 text-xl"><i class="fa-solid fa-microchip mr-2"></i>Simulator Algoritma Modulo</h3>
+                        <div class="flex gap-4 mb-4">
+                            <input type="number" id="s16-val" value="25" class="w-2/3 bg-slate-900 p-3 text-white rounded font-bold" placeholder="Desimal">
+                            <select id="s16-base" class="w-1/3 bg-slate-900 p-3 text-white rounded">
+                                <option value="2">Biner (2)</option>
+                                <option value="8">Oktal (8)</option>
+                            </select>
+                        </div>
+                        <button onclick="runSimConv()" class="w-full bg-yellow-600 text-black font-black py-3 rounded-xl mb-4">Mulai Hitung Biner/Oktal</button>
+                        <div class="bg-black p-4 rounded-xl text-slate-300 font-mono text-sm h-32 overflow-y-auto mb-2" id="s16-steps"></div>
+                        <div class="text-center font-bold text-2xl text-brand-accent tracking-widest" id="s16-result">-</div>
+                    </div>`
+            },
+            15: {
+                ap: "Selain Biner dan Oktal, ada satu lagi sistem yang sangat penting bagi programmer dan desainer warna komputer: Heksadesimal (Basis 16).",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Karena angka normal hanya ada 0-9, Heksadesimal meminjam huruf A sampai F untuk mewakili angka 10 sampai 15. Contoh: A=10, B=11, F=15. Warna putih di komputer sering ditulis #FFFFFF.</p>
+                    </div>`,
+                sim: ""
+            },
+            16: {
+                ap: "Data biner (0 dan 1) yang dikirim lewat internet atau WiFi bisa rusak karena gangguan sinyal (petir, magnet). Angka 1 bisa berubah jadi 0! Bagaimana komputer tahu ada data yang rusak?",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Komputer menggunakan trik cerdas bernama <b>Parity Bit Genap</b>. Sebelum dikirim, komputer menghitung jumlah angka '1' di pesan. Lalu komputer menambahkan satu bit ekstra di belakang agar total angka '1' selalu GENAP. Jika saat diterima totalnya ganjil, komputer penerima tahu bahwa data itu rusak!</p>
+                    </div>`,
+                sim: `
+                    <div class="glass-panel p-6 rounded-2xl border border-fuchsia-500 shadow-lg">
+                        <h3 class="font-bold text-fuchsia-400 mb-4 text-xl"><i class="fa-solid fa-satellite-dish mr-2"></i>Simulator Parity Genap</h3>
+                        <p class="text-sm text-slate-300 mb-4">Klik kotak biru untuk mengubah data asli. Lihat bagaimana komputer menyesuaikan Parity Bit!</p>
+                        <div class="bg-slate-900 p-5 rounded-xl flex flex-col md:flex-row gap-6 items-center">
+                            <div>
+                                <span class="text-xs text-slate-400 block mb-2">Data Asli:</span>
+                                <div class="flex gap-2" id="s17-data">
+                                    <button onclick="toggleBit(this)" class="w-10 h-10 rounded bg-brand-accent text-white font-bold">1</button>
+                                    <button onclick="toggleBit(this)" class="w-10 h-10 rounded bg-slate-700 text-slate-400 font-bold">0</button>
+                                    <button onclick="toggleBit(this)" class="w-10 h-10 rounded bg-brand-accent text-white font-bold">1</button>
+                                    <button onclick="toggleBit(this)" class="w-10 h-10 rounded bg-slate-700 text-slate-400 font-bold">0</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-slate-400 text-sm">Bit '1' ada: <b id="s17-count" class="text-white">2</b></span>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-xs text-fuchsia-400 font-bold">Parity Bit:</span>
+                                    <div id="s17-parity" class="w-12 h-12 rounded bg-fuchsia-500 text-white flex items-center justify-center font-bold text-xl">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            17: {
+                ap: "Sebagai proyek akhir dari Bab ini, kamu akan membandingkan apa yang sudah kamu pelajari tentang visual blok.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Tugas offline: Buatlah sebuah poster kreatif yang menampilkan perbandingan cara kerja algoritma di Scratch dan Blockly. Jelaskan persamaan dan perbedaan cara merakit logikanya!</p>
+                    </div>`,
+                sim: ""
+            },
+            18: {
+                ap: "Setelah mahir membuat program di layar komputer, sekarang saatnya membawa program tersebut ke dunia nyata! Kita akan mengenal robot mini bernama Ozobot.",
+                mat: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-slate-300">Ozobot adalah robot kecil yang bisa membaca garis dan warna. Alih-alih menyusun blok di layar, kita memprogram Ozobot dengan menggambar garis warna menggunakan spidol (misal: Merah-Hijau-Merah berarti belok kiri). Ini adalah bukti bahwa algoritma ada di mana-mana, bukan hanya di dalam monitor!</p>
+                    </div>`,
+                sim: ""
+            }
+        };
 
-             html += renderNavigationButtons(false, 'checkMastery()');
-             return html;
+        const quizDB = {
+            1: [
+                { q: "Apa definisi dari algoritma?", options: ["Bahasa robot", "Urutan langkah logis menyelesaikan masalah", "Aplikasi pengolah angka", "Nama pembuat komputer"], a: 1, feedback: "Algoritma adalah urutan langkah logis yang harus diikuti komputer." },
+                { q: "Mengapa komputer disebut tidak bisa berpikir sendiri?", options: ["Karena tidak punya otak", "Karena hanya memproses instruksi/algoritma dari manusia", "Karena butuh listrik", "Karena RAM-nya kecil"], a: 1, feedback: "Komputer bergantung sepenuhnya pada algoritma dari programmer." },
+                { q: "Contoh algoritma dalam dunia nyata adalah...", options: ["Resep memasak mie", "Menonton TV", "Tidur", "Warna baju"], a: 0, feedback: "Resep mie memiliki langkah berurutan yang logis." },
+                { q: "Jika urutan algoritma salah, apa yang terjadi pada program?", options: ["Program menjadi lebih cepat", "Program akan gagal/error", "Program memperbaiki diri", "Tidak terjadi apa-apa"], a: 1, feedback: "Komputer butuh urutan yang presisi." },
+                { q: "Siapa yang bertanggung jawab membuat algoritma untuk komputer?", options: ["Listrik", "Monitor", "Manusia (Programmer)", "Mesin cetak"], a: 2, feedback: "Programmer lah yang menyusun algoritma." }
+            ],
+            2: [
+                { q: "Keuntungan utama pemrograman visual bagi pemula adalah...", options: ["Tidak perlu mengetik kode/bebas typo", "Hanya bisa jalan di HP", "Membuat komputer lebih cepat", "Bisa merakit hardware"], a: 0, feedback: "Pemrograman visual meminimalisir kesalahan ketik (Syntax Error)." },
+                { q: "Lingkungan visual yang menggunakan blok dan karakter (sprite) di atas stage adalah...", options: ["Microsoft Excel", "Scratch", "Python", "Google Maps"], a: 1, feedback: "Scratch didesain dengan konsep Stage dan Sprite." },
+                { q: "Lingkungan visual buatan Google yang sering dipakai untuk IoT dan logika murni adalah...", options: ["Scratch", "Blockly", "Canva", "Android"], a: 1, feedback: "Blockly adalah buatan Google." },
+                { q: "Karakter/objek yang dikendalikan dalam Scratch disebut...", options: ["Panggung", "Sprite", "Block", "Variabel"], a: 1, feedback: "Karakter di Scratch disebut Sprite." },
+                { q: "Layar hasil eksekusi program di Scratch disebut...", options: ["Sprite", "Stage", "Script", "Background"], a: 1, feedback: "Layar hasilnya disebut Stage (Panggung)." }
+            ],
+            3: [
+                { q: "Singkatan dari IPO dalam komputasi adalah...", options: ["Input, Program, Output", "Input, Proses, Output", "Inside, Process, Outside", "Input, Print, Object"], a: 1, feedback: "Tiga dasar komputer: Input, Proses, Output." },
+                { q: "Tempat menyimpan data sementara dalam memori komputer yang namanya bisa kita tentukan sendiri disebut...", options: ["Variabel", "Mouse", "File", "Prosesor"], a: 0, feedback: "Variabel ibarat kotak berlabel untuk menyimpan data." },
+                { q: "Blok 'ask [Siapa namamu?] and wait' di Scratch berfungsi sebagai...", options: ["Output", "Proses", "Input", "Perulangan"], a: 2, feedback: "Blok ask meminta masukan (input) dari pengguna." },
+                { q: "Jika variabel X diisi angka 5, lalu diisi lagi angka 10, berapakah nilai X sekarang?", options: ["5", "10", "15", "0"], a: 1, feedback: "Nilai variabel selalu mengambil nilai terakhir yang dimasukkan." },
+                { q: "Blok untuk menampilkan teks atau variabel ke layar di Scratch adalah...", options: ["ask", "say", "set", "wait"], a: 1, feedback: "Blok 'say' digunakan untuk Output." }
+            ],
+            4: [
+                { q: "Konsep yang memungkinkan komputer memilih jalur eksekusi berbeda berdasar kondisi adalah...", options: ["Variabel", "Percabangan (If-Else)", "Perulangan", "Input"], a: 1, feedback: "Percabangan membuat komputer bisa membuat keputusan." },
+                { q: "Operator yang digunakan untuk mengecek apakah dua nilai sama besar adalah...", options: ["+", ">", "=", "<"], a: 2, feedback: "Operator relasional '=' digunakan untuk kesamaan." },
+                { q: "Jika variabel N = 80, dan syarat KKM adalah IF N > 75, apa hasil kondisinya?", options: ["Salah (False)", "Benar (True)", "Error", "Tidak tentu"], a: 1, feedback: "80 lebih besar dari 75, jadi kondisinya Benar (True)." },
+                { q: "Blok Scratch yang mewakili kondisi Jika... Maka... Jika Tidak... adalah...", options: ["if... then...", "if... then... else...", "repeat until...", "forever..."], a: 1, feedback: "If-then-else adalah bentuk lengkap percabangan." },
+                { q: "Pada 'IF hujan THEN bawa payung ELSE pakai topi'. Jika tidak hujan, apa yang terjadi?", options: ["Bawa payung", "Pakai topi", "Bawa payung dan topi", "Diam di rumah"], a: 1, feedback: "Jika False, maka blok ELSE yang dijalankan (pakai topi)." }
+            ],
+            5: [
+                { q: "Fungsi utama blok perulangan (loop) adalah...", options: ["Membuat variabel baru", "Mengeksekusi kode yang sama berulang kali secara otomatis", "Menghapus kode", "Menunda program"], a: 1, feedback: "Loop menghemat waktu programmer dengan mengulang instruksi." },
+                { q: "Blok di Scratch untuk mengulang sejumlah N kali yang sudah pasti adalah...", options: ["Repeat N", "Forever", "Repeat Until", "If-Else"], a: 0, feedback: "Repeat N digunakan untuk Counted Loop." },
+                { q: "Blok untuk mengulang tanpa henti (selamanya) adalah...", options: ["Repeat", "Repeat Until", "Forever", "If"], a: 2, feedback: "Forever adalah infinite loop di Scratch." },
+                { q: "Mengulang instruksi SAMPAI baterai menyentuh 100% menggunakan blok...", options: ["Repeat N", "Forever", "Repeat Until", "If-Then"], a: 2, feedback: "Repeat Until adalah Conditional Loop." },
+                { q: "Apa bahayanya Infinite Loop yang tidak disengaja?", options: ["Membuat program error/hang karena kehabisan memori", "Membuat komputer meledak", "Program menjadi lebih baik", "Membuat grafis lebih bagus"], a: 0, feedback: "Loop tanpa henti membuat komputer nge-hang (freeze)." }
+            ],
+            6: [
+                { q: "Teknik memecah program besar menjadi bagian-bagian kecil yang terpisah disebut...", options: ["Variabel", "Percabangan", "Modularisasi", "Literasi"], a: 2, feedback: "Modularisasi (membuat modul)." },
+                { q: "Di Scratch, fitur untuk membuat modul atau fungsi sendiri disebut...", options: ["Make a Variable", "Make a Block", "Make a Sprite", "Make a Stage"], a: 1, feedback: "Make a Block adalah fitur custom block." },
+                { q: "Modul yang menjalankan tugas lalu memberikan/mengembalikan hasil hitungan disebut...", options: ["Fungsi (Function)", "Prosedur (Procedure)", "Looping", "Input"], a: 0, feedback: "Fungsi mengembalikan nilai (return value)." },
+                { q: "Modul yang HANYA menjalankan tugas tanpa mengembalikan hasil (misal: robot maju) disebut...", options: ["Fungsi", "Prosedur", "Variabel", "If-Else"], a: 1, feedback: "Prosedur (Procedure) bersifat No Return." },
+                { q: "Apa keuntungan utama menggunakan Modularisasi?", options: ["Program menjadi sangat panjang", "Kode dapat digunakan kembali (reusable) tanpa diketik ulang", "Membuat komputer lebih berat", "Menghilangkan warna pada blok"], a: 1, feedback: "Reusability (keterpakaian ulang) adalah manfaat utamanya." }
+            ],
+            7: [
+                { q: "Nilai masukan (input) yang disisipkan ke dalam sebuah modul/fungsi saat dipanggil disebut...", options: ["Variabel Lokal", "Parameter", "Output", "Return"], a: 1, feedback: "Parameter membuat modul menjadi lebih dinamis." },
+                { q: "Pada persamaan f(x) = 2x + 5. Apa peran 'x' dalam fungsi program?", options: ["Nama fungsi", "Parameter", "Output akhir", "Kondisi"], a: 1, feedback: "x adalah inputan (parameter) dari fungsi." },
+                { q: "Jika kita memanggil f(3) pada rumus f(x) = 2x + 5, berapakah hasilnya?", options: ["8", "10", "11", "5"], a: 2, feedback: "(2 * 3) + 5 = 11." },
+                { q: "Mengapa kita perlu memberikan parameter pada blok kustom?", options: ["Agar modul selalu menghasilkan nilai yang sama", "Agar modul bisa memproses data yang berbeda-beda tiap kali dipanggil", "Agar blok menjadi warna merah", "Agar program hang"], a: 1, feedback: "Parameter membuat blok lebih fleksibel/dinamis." },
+                { q: "Dalam Scratch, parameter pada 'Make a Block' bisa berbentuk...", options: ["Warna dan suara", "Number/Text dan Boolean", "Video saja", "Tidak bisa pakai parameter"], a: 1, feedback: "Kita bisa menambahkan input angka/teks atau logika (boolean)." }
+            ],
+            8: [
+                { q: "Kumpulan modul atau fungsi yang sudah dibuat sebelumnya dan siap digunakan kembali disebut...", options: ["Variabel", "Library (Pustaka)", "Sprite", "Blockly"], a: 1, feedback: "Library adalah rak buku berisi modul siap pakai." },
+                { q: "Apa tujuan utama menggunakan Library?", options: ["Memperlambat komputer", "Mencegah programmer menulis ulang kode yang sama (Reusability)", "Menghapus program lama", "Membuat virus"], a: 1, feedback: "Prinsip DRY (Don't Repeat Yourself)." },
+                { q: "Jika kamu membuat Library Bangun Datar, modul mana yang cocok dimasukkan ke dalamnya?", options: ["Modul JalanMaju()", "Modul MainkanSuara()", "Modul LuasSegitiga(a,t)", "Modul UbahWarna()"], a: 2, feedback: "LuasSegitiga relevan dengan matematika bangun datar." },
+                { q: "Library membuat program menjadi lebih...", options: ["Panjang dan berantakan", "Efisien dan rapi", "Sulit dibaca", "Mahal"], a: 1, feedback: "Library menyederhanakan kode utama." },
+                { q: "Berapa jumlah parameter yang wajar untuk modul LuasPersegiPanjang?", options: ["1 parameter (Sisi)", "2 parameter (Panjang, Lebar)", "3 parameter", "Tidak butuh parameter"], a: 1, feedback: "Butuh panjang dan lebar (2 parameter)." }
+            ],
+            9: [
+                { q: "Belajar algoritma atau logika komputer tanpa menggunakan perangkat elektronik/komputer disebut...", options: ["Plugged", "Unplugged", "Hardware", "Online"], a: 1, feedback: "Unplugged artinya tanpa listrik/komputer." },
+                { q: "Aktivitas menyusun pola gelang warna-warni secara berulang melatih logika tentang...", options: ["Perulangan (Looping) dan Modul", "Cara menghidupkan komputer", "Cara merakit mouse", "Cara main game"], a: 0, feedback: "Pola gelang melatih konsep loop dan modul." },
+                { q: "Jika pola gelang adalah 'Merah-Kuning-Hijau' diulang 3 kali, berapa total manik kuning yang dibutuhkan?", options: ["1", "3", "9", "0"], a: 1, feedback: "Ada 3 perulangan, tiap perulangan butuh 1 kuning." },
+                { q: "Mengapa abstraksi penting saat merangkai gelang?", options: ["Agar kita fokus pada urutan warnanya, bukan merek manik-maniknya", "Agar manik-manik cepat habis", "Agar benangnya putus", "Agar warnanya campur aduk"], a: 0, feedback: "Abstraksi mengabaikan detail tidak penting (seperti merek)." },
+                { q: "Manfaat utama aktivitas unplugged adalah...", options: ["Bisa main internet gratis", "Melatih nalar dan logika komputasi dengan alat sederhana", "Membuat tangan kotor", "Merusak komputer"], a: 1, feedback: "Fokus pada cara berpikir, bukan alat teknologinya." }
+            ],
+            10: [
+                { q: "Membuat program untuk memprediksi jumlah bakteri merupakan contoh dari...", options: ["Literasi Keuangan", "Literasi Sains", "Literasi Seni", "Literasi Membaca"], a: 1, feedback: "Menerapkan komputasi pada ilmu Biologi/Sains." },
+                { q: "Bakteri membelah diri menjadi 2 setiap hari. Jika hari ke-0 ada 5 bakteri, berapa jumlahnya di hari ke-1?", options: ["5", "7", "10", "20"], a: 2, feedback: "5 dikali 2 = 10." },
+                { q: "Pada kasus pertumbuhan bakteri di atas, angka '2' disebut sebagai...", options: ["Populasi awal", "Faktor pertumbuhan", "Jumlah hari", "Sisa bagi"], a: 1, feedback: "2 adalah faktor pengalinya." },
+                { q: "Jika rumus populasi adalah P = P * 2, variabel mana yang nilainya terus diperbarui?", options: ["Angka 2", "Variabel P", "Hari", "Tidak ada"], a: 1, feedback: "Isi variabel P akan diganti dengan hasil perkalian baru." },
+                { q: "Untuk memprediksi populasi 3 hari saja, struktur algoritma apa yang cukup digunakan?", options: ["Infinite loop", "Sekuensial biasa (berurutan) 3 langkah", "Pustaka 3D", "Sensor robot"], a: 1, feedback: "Untuk 3 hari, sekadar 3 langkah berurutan masih wajar diketik manual." }
+            ],
+            11: [
+                { q: "Untuk memprediksi populasi bakteri setelah N hari (misal 30 hari), sangat tidak disarankan menulis baris kode manual sebanyak 30 kali. Solusinya adalah...", options: ["Menggunakan percabangan IF", "Menggunakan blok Perulangan (Repeat N)", "Menghapus program", "Membuat variabel 30 buah"], a: 1, feedback: "Perulangan meringkas kode yang berulang." },
+                { q: "Pada simulasi 'Loop N Hari', nilai N berfungsi sebagai...", options: ["Faktor kali bakteri", "Kondisi awal", "Jumlah batas iterasi/perulangan", "Target bakteri"], a: 2, feedback: "N menentukan berapa kali loop dijalankan." },
+                { q: "Apa yang terjadi pada variabel 'Populasi' di dalam blok perulangan tersebut?", options: ["Nilainya tetap", "Nilainya ditambahkan 1", "Nilainya terus dikalikan faktor pertumbuhan setiap siklus loop", "Nilainya menjadi 0"], a: 2, feedback: "Di dalam loop, populasi terus diperbarui dengan perkalian." },
+                { q: "Bakteri awal 10, faktor 2, Loop (N) = 2. Berapa hasil akhirnya?", options: ["10", "20", "40", "80"], a: 2, feedback: "Iterasi 1 (10x2=20). Iterasi 2 (20x2=40)." },
+                { q: "Blok di Scratch yang paling tepat untuk iterasi N hari adalah...", options: ["Forever", "Repeat Until", "Repeat (N)", "If-Then"], a: 2, feedback: "Karena N adalah angka pasti (Counted Loop)." }
+            ],
+            12: [
+                { q: "Jika kita tidak tahu berapa hari yang dibutuhkan, tetapi tahu TARGET jumlah bakteri yang harus dicapai, blok loop apa yang cocok?", options: ["Repeat N", "Repeat Until", "Forever", "If-Else"], a: 1, feedback: "Repeat Until (Ulangi Sampai) kondisi target terpenuhi." },
+                { q: "Dalam 'Repeat Until (Populasi > 1000)', kondisi (Populasi > 1000) bertindak sebagai...", options: ["Kondisi jalan", "Kondisi Berhenti (Stop condition)", "Variabel awal", "Error"], a: 1, feedback: "Loop akan berhenti saat kondisi itu True." },
+                { q: "Jika bakteri awal 10, faktor kali 10, dan target > 100. Di hari ke berapa loop berhenti?", options: ["1", "2", "3", "10"], a: 1, feedback: "Hari 1 = 10x10=100 (belum > 100). Hari 2 = 100x10=1000 (> 100). Berhenti di hari ke-2." },
+                { q: "Apa yang terjadi jika di dalam Repeat Until kita lupa menambahkan blok perkalian populasi?", options: ["Target cepat tercapai", "Infinite Loop karena populasi tidak pernah bertambah", "Bakteri mati", "Program langsung selesai"], a: 1, feedback: "Tanpa diupdate, kondisi tak akan pernah tercapai (Infinite loop)." },
+                { q: "Untuk mengetahui hari ke berapa target tercapai, kita butuh variabel tambahan sebagai...", options: ["Password", "Faktor", "Penghitung hari (Counter)", "Output"], a: 2, feedback: "Variabel Counter yang ditambah 1 tiap siklus loop." }
+            ],
+            13: [
+                { q: "Sistem bilangan yang biasa dipakai manusia sehari-hari (menggunakan angka 0-9) disebut...", options: ["Biner", "Oktal", "Heksadesimal", "Desimal"], a: 3, feedback: "Desimal adalah basis 10." },
+                { q: "Prosesor komputer hanya memahami dua keadaan listrik (hidup/mati). Sistem bilangan apa yang mewakilinya?", options: ["Desimal", "Oktal", "Biner", "Romawi"], a: 2, feedback: "Biner (Basis 2) hanya berisi angka 0 dan 1." },
+                { q: "Sistem bilangan berbasis 8 (menggunakan angka 0-7) disebut...", options: ["Biner", "Desimal", "Oktal", "Heksadesimal"], a: 2, feedback: "Oktal = 8." },
+                { q: "Angka berapakah yang TIDAK MUNGKIN ada dalam sistem bilangan Biner?", options: ["0", "1", "2", "Semua angka boleh"], a: 2, feedback: "Biner hanya 0 dan 1. Angka 2 tidak ada." },
+                { q: "Mengapa manusia menggunakan sistem desimal?", options: ["Karena diajarkan alien", "Karena manusia punya 10 jari tangan", "Karena komputernya rusak", "Agar susah dipelajari"], a: 1, feedback: "Sejarah desimal berasal dari 10 jari manusia." }
+            ],
+            14: [
+                { q: "Algoritma untuk mengonversi Desimal ke Biner menggunakan operasi matematika...", options: ["Penambahan berulang", "Pembagian berulang (Modulo)", "Akar kuadrat", "Pengurangan"], a: 1, feedback: "Modulo (sisa hasil bagi) basis 2." },
+                { q: "Jika kita membagi angka ganjil dengan 2, sisa baginya selalu...", options: ["0", "1", "2", "-1"], a: 1, feedback: "Angka ganjil selalu menyisakan 1 jika dibagi 2." },
+                { q: "Untuk mengonversi Desimal ke Oktal, angka desimal tersebut harus dibagi berulang dengan angka...", options: ["2", "8", "10", "16"], a: 1, feedback: "Oktal adalah basis 8, jadi dibagi 8." },
+                { q: "Setelah mendapat semua sisa bagi pada proses konversi, bagaimana cara membaca hasil akhir binernya?", options: ["Dari Atas ke Bawah", "Dari Kiri ke Kanan", "Dari Bawah ke Atas", "Diacak"], a: 2, feedback: "Sisa bagi dibaca dari yang paling akhir (bawah) ke atas." },
+                { q: "Berapa biner dari desimal 2? (2 dibagi 2 = 1 sisa 0. 1 dibagi 2 = 0 sisa 1)", options: ["00", "01", "10", "11"], a: 2, feedback: "Dibaca dari bawah: 1 lalu 0 = 10." }
+            ],
+            15: [
+                { q: "Sistem bilangan Heksadesimal menggunakan basis...", options: ["2", "8", "10", "16"], a: 3, feedback: "Heksadesimal = 16." },
+                { q: "Dalam Heksadesimal, angka 10 digantikan dengan huruf...", options: ["A", "B", "C", "F"], a: 0, feedback: "10 = A." },
+                { q: "Dalam Heksadesimal, huruf F mewakili angka desimal...", options: ["11", "12", "14", "15"], a: 3, feedback: "F adalah yang terbesar, yaitu 15." },
+                { q: "Mengapa sistem Heksadesimal sering digunakan programmer komputer?", options: ["Agar keren", "Mempersingkat barisan biner yang terlalu panjang (misal kode warna)", "Untuk menghitung uang", "Tidak pernah digunakan"], a: 1, feedback: "Kode warna web (HTML) menggunakan hex untuk mempersingkat." },
+                { q: "Jika hasil sisa bagi adalah 11 dalam perhitungan Heksadesimal, maka yang ditulis adalah...", options: ["11", "A", "B", "C"], a: 2, feedback: "10=A, 11=B." }
+            ],
+            16: [
+                { q: "Apa fungsi utama Parity Bit dalam transmisi data komputer?", options: ["Membuat internet lebih cepat", "Mendeteksi apakah ada bit data yang rusak/berubah saat dikirim", "Menerjemahkan bahasa", "Menghapus virus"], a: 1, feedback: "Deteksi error paling dasar." },
+                { q: "Pada 'Parity Bit Genap', komputer menambahkan bit ekstra agar TOTAL angka '1' di paket data menjadi...", options: ["Ganjil", "Genap", "Nol", "Sepuluh"], a: 1, feedback: "Aturan Parity Genap mewajibkan jumlah angka 1 genap." },
+                { q: "Jika data asli adalah [1, 0, 1] (ada dua angka '1'), parity bit ekstra apa yang harus ditambahkan agar tetap genap?", options: ["1", "0", "2", "-1"], a: 1, feedback: "Sudah genap (2 buah), jadi tambahkan 0." },
+                { q: "Komputer penerima menerima pesan [1, 1, 1] lengkap dengan parity bit. Total angka '1' ada 3 (Ganjil). Kesimpulan komputer?", options: ["Data Valid", "Data Rusak/Corrupt (Error)", "Baterai habis", "Download selesai"], a: 1, feedback: "Harusnya genap, tapi ganjil, berarti rusak di jalan." },
+                { q: "Kelemahan utama sistem Parity Bit adalah...", options: ["Sangat mahal", "Hanya bisa mengecek angka 0", "Tertipu jika ada DUA bit yang rusak bersamaan (karena tetap genap)", "Membuat komputer hang"], a: 2, feedback: "Jika 2 bit berubah, parity tidak mendeteksi." }
+            ],
+            17: [
+                { q: "Membandingkan logika di Scratch dan Blockly membuktikan bahwa...", options: ["Satu aplikasi lebih baik", "Bahasa/tampilannya boleh beda, tapi konsep logikanya (algoritma) tetap sama", "Blok warna merah selalu jelek", "Komputer bingung"], a: 1, feedback: "Algoritma itu universal, bahasanya yang beda." },
+                { q: "Mengapa penting merangkum hasil belajar ke dalam poster atau presentasi?", options: ["Untuk membuang waktu", "Agar ilmu menancap kuat dan bisa dipahami orang lain", "Agar buku habis", "Untuk nilai matematika"], a: 1, feedback: "Presentasi membuktikan pemahaman mendalam." },
+                { q: "Dalam proyek translasi visual blok, mengubah blok Scratch ke blok Blockly disebut...", options: ["Coding", "Hacking", "Translasi / Pemetaan", "Bermain"], a: 2, feedback: "Translasi sama dengan menerjemahkan logika." },
+                { q: "Blok 'if-then' di Scratch memiliki padanan di Blockly berupa blok bernama...", options: ["Repeat", "Controls_If", "Math_Add", "Text_Print"], a: 1, feedback: "Kedua lingkungan memiliki blok kondisi." },
+                { q: "Apa inti utama dari pembelajaran Algoritma?", options: ["Menghafal warna blok", "Mengetik cepat", "Melatih pola pikir komputasional dan logis untuk memecahkan masalah", "Membuat robot besar"], a: 2, feedback: "Logika dan pemecahan masalah adalah intinya." }
+            ],
+            18: [
+                { q: "Robot mini yang dipelajari pada aktivitas praktik lintas bidang kelas IX adalah...", options: ["Optimus Prime", "Ozobot", "Doraemon", "Gundam"], a: 1, feedback: "Ozobot adalah robot edukasi line-follower." },
+                { q: "Ozobot membaca instruksi algoritma dari manusia menggunakan...", options: ["Keyboard", "Suara", "Kombinasi garis warna (Spidol merah, hijau, biru, hitam)", "Sinyal TV"], a: 2, feedback: "Ozobot diprogram menggunakan sensor warna." },
+                { q: "Di Ozobot, urutan warna Merah-Hijau-Merah (misalnya) berfungsi sebagai...", options: ["Dekorasi", "Sebuah instruksi/kode algoritma (misal: belok kiri)", "Lampu disko", "Tanda bahaya"], a: 1, feedback: "Setiap pola warna diterjemahkan sebagai instruksi khusus." },
+                { q: "Jika Ozobot keluar dari garis, apa yang mengkin terjadi?", options: ["Robot terbang", "Bug algoritma (garis putus/warna salah)", "Robot membesar", "Robot bicara"], a: 1, feedback: "Sama seperti kode program, jika instruksi putus, robot akan error/berhenti." },
+                { q: "Mempelajari Ozobot membuktikan bahwa algoritma...", options: ["Hanya untuk game di monitor", "Bisa digunakan untuk mengendalikan benda fisik (Robot/Mesin) di dunia nyata", "Hanya ada di buku", "Sangat membosankan"], a: 1, feedback: "Komputasi fisik (Physical Computing) menghubungkan kode dengan dunia nyata." }
+            ]
+        };
+
+        let sim1State = [];
+        function sim1AddStep(step) {
+            if(sim1State.length < 4) {
+                sim1State.push(step);
+                document.getElementById('sim1-output').innerHTML = sim1State.map(s => `<li>${s}</li>`).join('');
+            }
         }
-
-        // Generic Mastery Check for Meeting 2-30
-        function renderGenericMastery(content) {
-            let html = `<p class="text-lg text-slate-300 mb-8">${content}</p>`;
-            html += `<div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 text-center mb-8">
-                        <i class="fa-solid fa-laptop-code text-5xl text-sky-400 mb-4"></i>
-                        <h4 class="text-xl font-bold text-white mb-2">Simulasi Mastery Check</h4>
-                        <p class="text-slate-400 mb-6">Materi kuis interaktif spesifik untuk pertemuan ini (P${state.currentMeetingId}) akan segera ditambahkan. Untuk sementara, klik tombol di bawah untuk menyelesaikan misi secara otomatis.</p>
-                        <button onclick="addXP(50); finishMeetingSimulated()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold transition-all shadow-lg shadow-green-500/30 flex items-center justify-center gap-2 mx-auto">
-                            <i class="fa-solid fa-check-circle"></i> Selesaikan Misi
-                        </button>
-                      </div>`;
-            return html;
+        function sim1Reset() {
+            sim1State = [];
+            document.getElementById('sim1-output').innerHTML = '';
+            document.getElementById('sim1-feedback').classList.add('hidden');
         }
-
-        function finishMeetingSimulated() {
-            const m = state.meetings[state.currentMeetingId - 1];
-            m.mastery = 100; // Set mastery otomatis ke 100%
-            saveState();
-            finishMeeting();
-        }
-
-        function checkMastery() {
-            const questions = document.querySelectorAll('.mastery-q');
-            let score = 0;
-            let allAnswered = true;
+        function sim1Check() {
+            const fb = document.getElementById('sim1-feedback');
+            fb.classList.remove('hidden');
+            if(sim1State.length < 4) {
+                fb.className = "mt-4 text-sm font-bold p-3 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30";
+                fb.innerHTML = "Robot Bingung: Instruksi belum lengkap!";
+                return;
+            }
+            const correct = ["Siapkan Gelas", "Masukkan Teh & Gula", "Tuang Air Panas", "Aduk rata"];
+            let isCorrect = sim1State.every((val, index) => val === correct[index]);
             
-            questions.forEach((q, idx) => {
-                const correct = parseInt(q.getAttribute('data-correct'));
-                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
-                
-                if(!selected) {
-                    allAnswered = false;
-                } else if(parseInt(selected.value) === correct) {
-                    score++;
+            if(isCorrect) {
+                fb.className = "mt-4 text-sm font-bold p-3 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+                fb.innerHTML = "Logika Benar! Teh selesai dibuat (+10 XP)";
+                appState.xp += 10; updateSidebar();
+            } else {
+                fb.className = "mt-4 text-sm font-bold p-3 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30";
+                fb.innerHTML = "ERROR: Urutan salah! Air panas mungkin tumpah.";
+            }
+        }
+
+        function runSimIO() {
+            const a = parseFloat(document.getElementById('sim3-a').value) || 0;
+            const b = parseFloat(document.getElementById('sim3-b').value) || 0;
+            const out = document.getElementById('sim3-out');
+            out.innerHTML = `> Membaca input...<br>> NILAI_A = ${a}<br>> NILAI_B = ${b}<br>> Proses hitung: (${a} + ${b}) / 2<br>> Output Rata-rata = <b class="text-white">${(a+b)/2}</b>`;
+            appState.xp += 5; updateSidebar();
+        }
+
+        function runSimBranch() {
+            const val = parseFloat(document.getElementById('sim4-val').value) || 0;
+            const kkm = parseFloat(document.getElementById('sim4-kkm').value) || 0;
+            const out = document.getElementById('sim4-out');
+            let res = val >= kkm ? '<span class="text-brand-success font-bold">LULUS / TUNTAS</span>' : '<span class="text-rose-400 font-bold">REMEDIAL</span>';
+            out.innerHTML = `> Cek Kondisi: Apakah ${val} >= ${kkm} ?<br>> Hasil Evaluasi: ${val >= kkm ? 'Benar (True)' : 'Salah (False)'}<br>> Keputusan Komputer: ${res}`;
+            appState.xp += 5; updateSidebar();
+        }
+
+        function runSimPersamaan() {
+            const k1 = parseFloat(document.getElementById('s7-k1').value) || 1;
+            const k2 = parseFloat(document.getElementById('s7-k2').value) || 0;
+            const k3 = parseFloat(document.getElementById('s7-k3').value) || 0;
+            let x = (k3 + k2) / k1;
+            document.getElementById('s7-out').innerText = Number.isInteger(x) ? x : x.toFixed(2);
+            appState.xp += 5; updateSidebar();
+        }
+
+        function switchLibTab(tab) {
+            document.querySelectorAll('.lib-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('content-' + tab).classList.remove('hidden');
+            document.getElementById('tab-persegi').className = tab === 'persegi' ? 'px-3 py-1 bg-indigo-500 text-white rounded' : 'px-3 py-1 bg-slate-700 text-white rounded';
+            document.getElementById('tab-segitiga').className = tab === 'segitiga' ? 'px-3 py-1 bg-indigo-500 text-white rounded' : 'px-3 py-1 bg-slate-700 text-white rounded';
+        }
+
+        function runSimLib(tab) {
+            let res = 0;
+            if(tab === 'persegi') {
+                const s = parseFloat(document.getElementById('lib-s').value) || 0;
+                res = s * s;
+            } else {
+                const a = parseFloat(document.getElementById('lib-a').value) || 0;
+                const t = parseFloat(document.getElementById('lib-t').value) || 0;
+                res = 0.5 * a * t;
+            }
+            document.getElementById('lib-out').innerText = res;
+            appState.xp += 5; updateSidebar();
+        }
+
+        function runSimLoopN() {
+            const awal = parseInt(document.getElementById('s11-awal').value) || 1;
+            const faktor = parseInt(document.getElementById('s11-faktor').value) || 2;
+            const n = parseInt(document.getElementById('s11-n').value) || 1;
+            const out = document.getElementById('s11-out');
+            
+            if(n > 20) { out.innerHTML = '<span class="text-rose-400">N terlalu besar (maksimal 20) untuk mencegah hang simulasi.</span>'; return; }
+            
+            let html = `> Populasi Awal = ${awal}<br>> Memulai Loop sebanyak ${n} iterasi...<br>`;
+            let pop = awal;
+            for(let i=1; i<=n; i++){
+                pop = pop * faktor;
+                html += `[Loop ${i}] Hari ke-${i}: Populasi di-update -> ${pop}<br>`;
+            }
+            html += `> Loop Selesai. Hasil akhir = <b class="text-white">${pop}</b>`;
+            out.innerHTML = html;
+            appState.xp += 10; updateSidebar();
+        }
+
+        function runSimConv() {
+            let val = parseInt(document.getElementById('s16-val').value) || 0;
+            const base = parseInt(document.getElementById('s16-base').value) || 2;
+            const stepsDiv = document.getElementById('s16-steps');
+            
+            if(val <= 0) { stepsDiv.innerHTML = "Masukkan angka desimal positif!"; document.getElementById('s16-result').innerText = "-"; return; }
+            
+            let steps = [];
+            let result = "";
+            let current = val;
+            
+            stepsDiv.innerHTML = "> Memulai algoritma modulo (pembagian berulang)...<br>";
+            
+            let i = 0;
+            function step() {
+                if(current > 0) {
+                    let sisa = current % base;
+                    let hasilBagi = Math.floor(current / base);
+                    stepsDiv.innerHTML += `[Iterasi ${i+1}] ${current} dibagi ${base} = ${hasilBagi}, Sisa = <b class="text-brand-accent">${sisa}</b><br>`;
+                    stepsDiv.scrollTop = stepsDiv.scrollHeight;
+                    result = sisa.toString() + result;
+                    current = hasilBagi;
+                    i++;
+                    setTimeout(step, 500);
+                } else {
+                    stepsDiv.innerHTML += `> Hasil bagi 0. Stop Iterasi.<br>> Susun sisa dari bawah ke atas.`;
+                    stepsDiv.scrollTop = stepsDiv.scrollHeight;
+                    document.getElementById('s16-result').innerText = result;
+                    appState.xp += 10; updateSidebar();
                 }
-            });
+            }
+            step();
+        }
+
+        function toggleBit(btn) {
+            btn.innerText = btn.innerText === "1" ? "0" : "1";
+            btn.className = btn.innerText === "1" ? "w-10 h-10 rounded bg-brand-accent text-white font-bold transition-colors" : "w-10 h-10 rounded bg-slate-700 text-slate-400 font-bold transition-colors";
             
-            if(!allAnswered) {
-                showNotification('Harap jawab semua pertanyaan terlebih dahulu.', 'warning');
+            const btns = document.querySelectorAll('#s17-data button');
+            let ones = 0;
+            btns.forEach(b => { if(b.innerText === "1") ones++; });
+            
+            document.getElementById('s17-count').innerText = ones;
+            const parityDiv = document.getElementById('s17-parity');
+            
+            if(ones % 2 === 0) {
+                parityDiv.innerText = "0";
+                parityDiv.className = "w-12 h-12 rounded bg-slate-600 text-white flex items-center justify-center font-bold text-xl transition-colors";
+            } else {
+                parityDiv.innerText = "1";
+                parityDiv.className = "w-12 h-12 rounded bg-fuchsia-500 text-white flex items-center justify-center font-bold text-xl shadow-[0_0_15px_rgba(217,70,239,0.8)] transition-colors";
+            }
+        }
+        function renderSim1() {
+            const out = document.getElementById('sim1-output');
+            out.innerHTML = sim1State.map((s, i) => `<li>${s}</li>`).join('');
+        }
+        function sim1Reset() {
+            sim1State = [];
+            renderSim1();
+            document.getElementById('sim1-feedback').classList.add('hidden');
+        }
+        function sim1Check() {
+            const fb = document.getElementById('sim1-feedback');
+            fb.classList.remove('hidden');
+            if(sim1State.length < 4) {
+                fb.className = "mt-4 text-sm font-bold p-3 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30";
+                fb.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Algoritma belum lengkap! Komputer bingung.";
                 return;
             }
             
-            const percentage = Math.round((score / questions.length) * 100);
-            const m = state.meetings[state.currentMeetingId - 1];
-            m.mastery = percentage;
-            saveState();
+            const correct = ["Siapkan Gelas", "Masukkan Teh & Gula", "Tuang Air Panas", "Aduk rata"];
+            let isCorrect = true;
+            for(let i=0; i<4; i++) {
+                if(sim1State[i] !== correct[i]) isCorrect = false;
+            }
             
-            if(percentage >= 80) {
-                addXP(100);
-                finishMeeting();
+            if(isCorrect) {
+                fb.className = "mt-4 text-sm font-bold p-3 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+                fb.innerHTML = "<i class='fa-solid fa-check-circle'></i> Logika Sempurna! Teh manis berhasil dibuat. Tambah +10 XP!";
+                appState.xp += 10;
+                updateSidebar();
             } else {
-                showModal('Skor: ' + percentage + '%', 'Kamu butuh skor minimal 80% untuk menguasai materi ini. Silakan ulangi bagian yang belum dipahami.', 'Ulangi Materi', () => {
-                    state.currentScreenIndex = 0;
-                    renderScreen();
-                });
+                fb.className = "mt-4 text-sm font-bold p-3 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30";
+                fb.innerHTML = "<i class='fa-solid fa-bug'></i> ERROR (Bug Logika): Urutan salah. Coba pikirkan langkah yang logis di dunia nyata.";
             }
         }
-    </script>
 
-    <script>
-        // --- NOTIFICATIONS & MODALS ---
-        function showNotification(message, type = 'info') {
-            const container = document.getElementById('notification-container');
-            const el = document.createElement('div');
-            
-            let bg = 'bg-slate-800 border-slate-700';
-            let icon = 'fa-info-circle text-sky-400';
-            
-            if(type === 'error') { bg = 'bg-red-900/90 border-red-500'; icon = 'fa-circle-xmark text-white'; }
-            if(type === 'warning') { bg = 'bg-yellow-900/90 border-yellow-500'; icon = 'fa-triangle-exclamation text-white'; }
-            if(type === 'badge') { bg = 'bg-gradient-to-r from-indigo-600 to-purple-600 border-purple-400'; icon = 'fa-trophy text-yellow-400'; }
-
-            el.className = `flex items-center gap-3 p-4 rounded-xl border shadow-lg ${bg} text-white slide-in-right`;
-            el.innerHTML = `<i class="fa-solid ${icon}"></i> <span class="font-medium text-sm">${message}</span>`;
-            
-            container.appendChild(el);
-            
-            setTimeout(() => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(10px)';
-                el.style.transition = 'all 0.3s ease';
-                setTimeout(() => el.remove(), 300);
-            }, 4000);
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try { appState = JSON.parse(saved); } 
+                catch (e) { console.error('Data corrupt, resetting...'); }
+            }
+            if (!appState.scores) appState.scores = {};
+            if (!appState.badges) appState.badges = [];
+            updateSidebar();
+            updateDebug();
         }
 
-        function showModal(title, message, btnText, action) {
-            const overlay = document.getElementById('modal-overlay');
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            updateSidebar();
+            updateDebug();
+        }
+
+        function nav(viewId) {
+            document.querySelectorAll('main > div').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('border-transparent');
+                el.classList.remove('border-brand-accent');
+            });
+            
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+            
+            const navBtn = document.getElementById(`nav-${viewId}`);
+            if (navBtn) {
+                navBtn.classList.add('active');
+                navBtn.classList.remove('border-transparent');
+                navBtn.classList.add('border-brand-accent');
+            }
+
+            if(viewId === 'map') renderMap();
+            if(viewId === 'home') renderHome();
+            if(viewId === 'report') renderReport();
+        }
+
+        function toggleMobileNav() {
+            const aside = document.querySelector('aside');
+            if (aside.classList.contains('hidden')) {
+                aside.classList.remove('hidden');
+                aside.classList.add('absolute', 'inset-y-0', 'left-0', 'shadow-2xl');
+            } else {
+                aside.classList.add('hidden');
+                aside.classList.remove('absolute', 'inset-y-0', 'left-0', 'shadow-2xl');
+            }
+        }
+
+        function updateSidebar() {
+            document.getElementById('sidebar-xp').innerText = appState.xp;
+            let progress = (appState.currentLevel / lessonsData.length) * 100;
+            document.getElementById('sidebar-progress').style.width = `${progress}%`;
+        }
+
+        function renderHome() {
+            document.getElementById('home-progress').innerText = appState.currentLevel;
+            document.getElementById('home-xp').innerText = appState.xp;
+            document.getElementById('home-badges').innerText = appState.badges.length;
+        }
+
+        function renderMap() {
+            const container = document.getElementById('map-container');
+            container.innerHTML = '';
+            
+            lessonsData.forEach((lesson, index) => {
+                const isCompleted = index + 1 < appState.currentLevel || appState.scores[lesson.id] >= 80;
+                const isUnlocked = index + 1 <= appState.currentLevel;
+                const isLocked = !isUnlocked;
+                
+                let stateClass = isLocked ? 'locked' : (isCompleted ? 'completed' : 'unlocked');
+                let icon = isLocked ? '<i class="fa-solid fa-lock text-sm"></i>' : (isCompleted ? '<i class="fa-solid fa-check text-sm"></i>' : index + 1);
+                
+                // Line to next node
+                if (index < lessonsData.length - 1) {
+                    const line = document.createElement('div');
+                    line.className = `map-line ${isCompleted ? 'completed' : ''}`;
+                    line.style.width = '2px';
+                    line.style.height = '40px';
+                    line.style.left = '21px';
+                    line.style.top = '44px';
+                    
+                    const nodeWrapper = document.createElement('div');
+                    nodeWrapper.className = 'relative mb-10 flex items-center gap-6';
+                    
+                    const node = document.createElement('div');
+                    node.className = `map-node ${stateClass}`;
+                    node.innerHTML = icon;
+                    if (!isLocked) node.onclick = () => openLesson(lesson.id);
+                    
+                    const text = document.createElement('div');
+                    text.className = `flex-1 glass-panel p-4 rounded-xl border border-slate-700 transition-all ${!isLocked ? 'cursor-pointer hover:bg-slate-800 hover:border-brand-accent' : 'opacity-50'}`;
+                    if (!isLocked) text.onclick = () => openLesson(lesson.id);
+                    
+                    let badgeHtml = '';
+                    if (lesson.badge) {
+                        const hasBadge = appState.badges.includes(lesson.badge);
+                        badgeHtml = `<i class="fa-solid fa-medal ${hasBadge ? 'text-brand-purple' : 'text-slate-600'} text-lg absolute -top-3 -right-3 bg-slate-900 rounded-full border border-slate-700 p-1"></i>`;
+                    }
+
+                    let scoreHtml = '';
+                    if (appState.scores[lesson.id] !== undefined) {
+                        const s = appState.scores[lesson.id];
+                        scoreHtml = `<span class="text-xs font-bold px-2 py-1 rounded bg-slate-900 ${s >= 80 ? 'text-emerald-400' : 'text-rose-400'} border border-slate-700 ml-2">Nilai: ${s}</span>`;
+                    }
+
+                    text.innerHTML = `
+                        ${badgeHtml}
+                        <h4 class="font-bold text-white mb-1">Misi ${lesson.id}: ${lesson.title}</h4>
+                        <p class="text-xs text-slate-400">${lesson.desc}</p>
+                        <div class="mt-3 flex items-center gap-2">
+                            ${isLocked ? '<span class="text-xs font-bold px-2 py-1 rounded bg-slate-800 text-slate-500"><i class="fa-solid fa-lock"></i> Terkunci</span>' : '<span class="text-xs font-bold px-2 py-1 rounded bg-brand-accent/20 text-brand-accent border border-brand-accent/30"><i class="fa-solid fa-play"></i> Mulai Belajar</span>'}
+                            ${scoreHtml}
+                        </div>
+                    `;
+                    
+                    const circleWrap = document.createElement('div');
+                    circleWrap.className = 'relative flex-shrink-0';
+                    circleWrap.appendChild(node);
+                    circleWrap.appendChild(line);
+                    
+                    nodeWrapper.appendChild(circleWrap);
+                    nodeWrapper.appendChild(text);
+                    container.appendChild(nodeWrapper);
+                } else {
+                     // Last node (no line)
+                     const nodeWrapper = document.createElement('div');
+                     nodeWrapper.className = 'relative flex items-center gap-6';
+                     
+                     const node = document.createElement('div');
+                     node.className = `map-node ${stateClass}`;
+                     node.innerHTML = icon;
+                     if (!isLocked) node.onclick = () => openLesson(lesson.id);
+                     
+                     const text = document.createElement('div');
+                     text.className = `flex-1 glass-panel p-4 rounded-xl border border-slate-700 transition-all ${!isLocked ? 'cursor-pointer hover:bg-slate-800 hover:border-brand-accent' : 'opacity-50'}`;
+                     if (!isLocked) text.onclick = () => openLesson(lesson.id);
+                     text.innerHTML = `
+                         <h4 class="font-bold text-white mb-1">Misi Terakhir: ${lesson.title}</h4>
+                         <p class="text-xs text-slate-400">${lesson.desc}</p>
+                     `;
+                     
+                     const circleWrap = document.createElement('div');
+                     circleWrap.className = 'relative flex-shrink-0';
+                     circleWrap.appendChild(node);
+                     
+                     nodeWrapper.appendChild(circleWrap);
+                     nodeWrapper.appendChild(text);
+                     container.appendChild(nodeWrapper);
+                }
+            });
+        }
+
+        function openLesson(id) {
+            const lesson = lessonsData.find(l => l.id === id);
+            const content = lessonContentDB[id];
+            
+            document.getElementById('lesson-subtitle').innerText = `MISI ${id}`;
+            document.getElementById('lesson-title').innerText = lesson.title;
+            
+            let html = `
+                <div class="glass-panel border-l-4 border-brand-accent p-6 rounded-2xl mb-8">
+                    <h3 class="font-bold text-xl mb-2 text-white"><i class="fa-solid fa-book-open-reader text-brand-accent mr-2"></i>Apersepsi & Konsep</h3>
+                    <p class="text-slate-300 leading-relaxed">${content.ap}</p>
+                </div>
+                
+                <div class="mb-10 text-slate-300 leading-relaxed">
+                    ${content.mat}
+                </div>
+            `;
+            
+            if (content.sim) {
+                html += `
+                    <div class="mb-10">
+                        ${content.sim}
+                    </div>
+                `;
+            }
+            
+            // KUIS SECTION
+            html += `
+                <div class="bg-slate-900 border border-slate-700 p-6 md:p-8 rounded-3xl mt-12 relative overflow-hidden" id="quiz-container">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-brand-purple/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <h3 class="font-black text-2xl mb-2 text-white flex items-center gap-3"><i class="fa-solid fa-clipboard-question text-brand-purple"></i> Evaluasi Pemahaman</h3>
+                    <p class="text-slate-400 text-sm mb-8">Jawab 5 pertanyaan berikut dengan benar (Minimal Nilai 80) untuk menyelesaikan misi ini dan mendapatkan XP!</p>
+                    
+                    <div class="space-y-8" id="quiz-form">
+                        ${renderQuiz(id)}
+                    </div>
+                    
+                    <button onclick="submitQuiz(${id})" class="mt-8 w-full bg-gradient-to-r from-brand-purple to-fuchsia-600 hover:from-fuchsia-500 hover:to-pink-500 text-white font-black py-4 rounded-2xl shadow-lg shadow-brand-purple/30 transition-all active:scale-95 text-lg">
+                        Kirim Jawaban & Evaluasi
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('lesson-content').innerHTML = html;
+            nav('lesson');
+            document.getElementById('main-scroll').scrollTop = 0;
+        }
+
+        function renderQuiz(lessonId) {
+            const qs = quizDB[lessonId] || [];
+            if(qs.length === 0) return `<p class="text-amber-400 italic">Kuis untuk modul ini sedang dalam penyusunan oleh guru.</p>`;
+            
+            let html = '';
+            qs.forEach((q, idx) => {
+                html += `
+                    <div class="quiz-item bg-slate-800 p-5 rounded-2xl border border-slate-700" data-qidx="${idx}">
+                        <p class="font-bold text-white mb-4 text-sm md:text-base"><span class="text-brand-purple mr-2">${idx+1}.</span> ${q.q}</p>
+                        <div class="space-y-2">
+                            ${q.options.map((opt, optIdx) => `
+                                <label class="flex items-center p-3 rounded-xl border border-slate-600 hover:border-brand-accent hover:bg-slate-700/50 cursor-pointer transition-colors group">
+                                    <input type="radio" name="q_${lessonId}_${idx}" value="${optIdx}" class="mr-3 w-4 h-4 text-brand-accent focus:ring-brand-accent bg-slate-900 border-slate-500">
+                                    <span class="text-sm text-slate-300 group-hover:text-white">${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <div id="feedback_${lessonId}_${idx}" class="mt-4 text-sm hidden p-3 rounded-xl"></div>
+                    </div>
+                `;
+            });
+            return html;
+        }
+
+        function submitQuiz(lessonId) {
+            const qs = quizDB[lessonId];
+            if(!qs) {
+                showModal('Peringatan', 'Kuis tidak ditemukan.', 'error');
+                return;
+            }
+
+            let score = 0;
+            let answered = 0;
+            
+            qs.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q_${lessonId}_${idx}"]:checked`);
+                const fbDiv = document.getElementById(`feedback_${lessonId}_${idx}`);
+                fbDiv.classList.remove('hidden', 'bg-emerald-900/30', 'text-emerald-400', 'border-emerald-500/30', 'bg-rose-900/30', 'text-rose-400', 'border-rose-500/30', 'border');
+                
+                if (selected) {
+                    answered++;
+                    const ans = parseInt(selected.value);
+                    if (ans === q.a) {
+                        score += (100 / qs.length);
+                        fbDiv.classList.add('bg-emerald-900/30', 'text-emerald-400', 'border', 'border-emerald-500/30');
+                        fbDiv.innerHTML = `<i class="fa-solid fa-check-circle mr-2"></i><b>Benar!</b> ${q.feedback || ''}`;
+                    } else {
+                        fbDiv.classList.add('bg-rose-900/30', 'text-rose-400', 'border', 'border-rose-500/30');
+                        fbDiv.innerHTML = `<i class="fa-solid fa-times-circle mr-2"></i><b>Kurang Tepat.</b> ${q.feedback || 'Silakan baca ulang materi di atas.'}`;
+                    }
+                }
+            });
+
+            if (answered < qs.length) {
+                showModal('Belum Lengkap', 'Harap jawab semua pertanyaan sebelum mengirim evaluasi.', 'error');
+                return;
+            }
+
+            score = Math.round(score);
+            appState.scores[lessonId] = score;
+
+            let msg = `Kamu mendapatkan nilai <b>${score}</b>. `;
+            let type = 'success';
+            
+            if (score >= 80) {
+                msg += "Luar biasa! Kamu telah menguasai materi ini.";
+                appState.xp += score; // Add XP
+                
+                // Unlock next level if this was the current highest level
+                if (appState.currentLevel === lessonId && lessonId < lessonsData.length) {
+                    appState.currentLevel++;
+                }
+
+                // Award Badge if exists
+                const lesson = lessonsData.find(l => l.id === lessonId);
+                if (lesson.badge && !appState.badges.includes(lesson.badge)) {
+                    appState.badges.push(lesson.badge);
+                    msg += `<br><br><div class="text-center"><i class="fa-solid fa-medal text-4xl text-brand-purple mb-2"></i><br><b>BADGE BARU DIDAPATKAN!</b></div>`;
+                }
+
+                saveData();
+                showModal('Evaluasi Berhasil', msg, type);
+            } else {
+                type = 'error';
+                msg += "Silakan periksa umpan balik di bawah setiap soal, pelajari kembali materinya, dan coba lagi untuk mencapai nilai minimal 80.";
+                showModal('Belum Tuntas', msg, type);
+            }
+        }
+
+        function renderReport() {
+            document.getElementById('report-xp').innerText = appState.xp;
+            
+            let lvl = 1;
+            let title = "Pemula Algoritma";
+            if (appState.xp > 500) { lvl = 2; title = "Penjelajah Logika"; }
+            if (appState.xp > 1000) { lvl = 3; title = "Ksatria Kode"; }
+            if (appState.xp > 2000) { lvl = 4; title = "Master Pemrograman"; }
+            
+            document.getElementById('report-level').innerText = `L${lvl}`;
+            document.getElementById('report-title').innerText = title;
+
+            // Render Badges
+            const badgeContainer = document.getElementById('badge-container');
+            badgeContainer.innerHTML = '';
+            
+            Object.keys(BADGES).forEach(key => {
+                const b = BADGES[key];
+                const hasBadge = appState.badges.includes(key);
+                
+                const div = document.createElement('div');
+                div.className = `glass-panel rounded-2xl p-4 text-center border-2 transition-all ${hasBadge ? b.color + ' bg-slate-800 scale-100 opacity-100' : 'border-slate-700 opacity-40 grayscale scale-95'}`;
+                
+                div.innerHTML = `
+                    <div class="text-3xl mb-2"><i class="fa-solid ${b.icon}"></i></div>
+                    <p class="font-bold text-xs leading-tight mb-1 text-white">${b.name}</p>
+                    <p class="text-[10px] text-slate-400 leading-tight">${hasBadge ? b.desc : 'Terkunci'}</p>
+                `;
+                badgeContainer.appendChild(div);
+            });
+
+            // Render Table
+            const tbody = document.getElementById('report-table');
+            tbody.innerHTML = '';
+            
+            lessonsData.forEach(l => {
+                const score = appState.scores[l.id];
+                const status = score === undefined ? '<span class="text-slate-500"><i class="fa-solid fa-minus"></i> Belum</span>' : 
+                               (score >= 80 ? '<span class="text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> Tuntas</span>' : '<span class="text-rose-400 font-bold"><i class="fa-solid fa-xmark"></i> Remedial</span>');
+                
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/50 transition-colors';
+                tr.innerHTML = `
+                    <td class="p-4 border-b border-slate-700 font-bold">Misi ${l.id}</td>
+                    <td class="p-4 border-b border-slate-700 text-slate-300">${l.title}</td>
+                    <td class="p-4 border-b border-slate-700 text-center">${status}</td>
+                    <td class="p-4 border-b border-slate-700 text-center font-mono ${score >= 80 ? 'text-emerald-400' : (score !== undefined ? 'text-rose-400' : 'text-slate-500')}">${score !== undefined ? score : '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateDebug() {
+            document.getElementById('debug-state').innerText = JSON.stringify(appState, null, 2);
+        }
+
+        function resetData() {
+            if(confirm("PERINGATAN KERAS!\n\nApakah Anda yakin ingin menghapus SELURUH data progres siswa di perangkat ini? Data tidak bisa dikembalikan.")) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        // Custom Modal Logic (Fixed CSS Animation triggering)
+        function showModal(title, desc, type) {
+            const modal = document.getElementById('custom-modal');
             const content = document.getElementById('modal-content');
             
-            content.innerHTML = `
-                <h3 class="text-2xl font-bold mb-4 text-white">${title}</h3>
-                <div class="text-slate-300 mb-8">${message}</div>
-                <div class="flex justify-end">
-                    <button id="modal-btn" class="px-6 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-bold transition-colors">
-                        ${btnText}
-                    </button>
-                </div>
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerHTML = desc;
+            
+            let iconHtml = '';
+            if (type === 'success') {
+                iconHtml = '<div class="w-20 h-20 mx-auto bg-emerald-500/20 rounded-full flex items-center justify-center text-4xl text-emerald-400 border-2 border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.4)]"><i class="fa-solid fa-check"></i></div>';
+            } else if (type === 'error') {
+                iconHtml = '<div class="w-20 h-20 mx-auto bg-rose-500/20 rounded-full flex items-center justify-center text-4xl text-rose-400 border-2 border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.4)]"><i class="fa-solid fa-exclamation"></i></div>';
+            }
+            document.getElementById('modal-icon').innerHTML = iconHtml;
+            
+            document.getElementById('modal-actions').innerHTML = `
+                <button onclick="closeModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl transition-colors">Tutup</button>
             `;
             
-            overlay.classList.remove('hidden');
-            setTimeout(() => content.classList.replace('scale-95', 'scale-100'), 10);
+            // Show background wrapper first
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             
-            document.getElementById('modal-btn').onclick = () => {
-                closeModal();
-                if(action) action();
-            };
+            // Trigger animation on next frame
+            requestAnimationFrame(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100', 'transition-all', 'duration-300', 'ease-out');
+            });
         }
 
         function closeModal() {
-            const overlay = document.getElementById('modal-overlay');
+            const modal = document.getElementById('custom-modal');
             const content = document.getElementById('modal-content');
-            content.classList.replace('scale-100', 'scale-95');
-            setTimeout(() => overlay.classList.add('hidden'), 200);
-        }
-
-        function updateHeaderInfo() {
-            document.getElementById('header-xp').innerText = `${state.xp} XP`;
-            const masteredCount = state.meetings.filter(m => m.status === 'menguasai').length;
-            document.getElementById('header-mastery').innerText = `${masteredCount}/30`;
             
-            const level = Math.floor(state.xp / 100) + 1;
-            document.getElementById('header-level').innerText = level;
+            // Animate out
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            // Hide wrapper after animation finishes
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
         }
 
-        function toggleTeacherMode() {
-            showModal('Teacher Mode', 'Fitur Teacher Mode akan menampilkan daftar pertemuan, RPP, soal & kunci jawaban, serta progress seluruh siswa. (Fitur sedang dalam pengembangan).', 'Tutup');
-        }
-
-        // Initialize App
         window.onload = () => {
-            loadState();
-            updateHeaderInfo();
-            renderDashboard();
+            loadData();
+            nav('home');
         };
     </script>
 </body>
